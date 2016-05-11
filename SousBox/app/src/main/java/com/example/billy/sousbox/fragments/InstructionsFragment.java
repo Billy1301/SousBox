@@ -34,31 +34,24 @@ public class InstructionsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.instruction_fragment_layout, container, false);
+        setRetainInstance(true);
+        setHasOptionsMenu(true);
+
         instructionsWebView = (WebView) v.findViewById(R.id.instruction_web_view);
         progress = (ProgressBar) v.findViewById(R.id.progress_bar);
-
-
         Bundle instructionBundle = getArguments();
         instructionURL = instructionBundle.getString(IngredientsFragment.URL_KEY);
-
-
         WebSettings webSettings = instructionsWebView.getSettings();
         instructionsWebView.setWebViewClient(new WebViewClientDemo()); //opens url in app, not in default browser
         webSettings.setJavaScriptEnabled(true); //turn js on for hacking and giving better ux
         instructionsWebView.addJavascriptInterface(new MyJavaScriptInterface(), "HTMLOUT");
-
         instructionsWebView.loadUrl(instructionURL);
 
-
-        setHasOptionsMenu(true);
 
         return v;
 
     }
-
-
 
     private class WebViewClientDemo extends WebViewClient {
         @Override

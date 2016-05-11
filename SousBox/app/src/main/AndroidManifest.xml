@@ -9,12 +9,14 @@
 
     <application
         android:allowBackup="true"
-        android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-        android:icon="@mipmap/ic_launcher"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+        android:icon="@mipmap/sousbox_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
-        android:name=".adapters.SousBoxFirebase">
+        android:name=".adapters.SousBoxFirebase"
+        >
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

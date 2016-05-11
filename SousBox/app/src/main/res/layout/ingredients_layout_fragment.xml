@@ -17,7 +17,7 @@
         <ImageView
             android:id="@+id/ingredients_imageView_id"
             android:layout_width="fill_parent"
-            android:layout_height="250dp"
+            android:layout_height="200dp"
             />
 
         <TextView

@@ -14,9 +14,16 @@
     <TextView
         android:layout_marginLeft="8dp"
         android:text="imageOne Title"
-        android:textSize="20sp"
+        android:layout_gravity="center"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:id="@+id/saved_recipe_imageOne_title_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:visibility="invisible"
+        android:id="@+id/recipeID_ID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 

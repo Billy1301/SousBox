@@ -2,10 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="filters"
-        app:showAsAction="always" />
+        android:id="@+id/bookmark"
+        android:icon="@drawable/ic_saved_icon"
+        android:title="bookmark"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/share_settings"
+        android:icon="@android:drawable/ic_menu_share"
+        android:title="share"
+        app:showAsAction="always"
+        />
 
 </menu>

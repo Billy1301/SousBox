@@ -1,16 +1,11 @@
 <resources>
-    <string name="app_name">SousBox</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="app_name">Sous Box</string>
     <string name="action_settings">Settings</string>
-
     <string name="facebook_app_id">996157483794893</string>
-
-
     <string name="tab_1">Recipes</string>
     <string name="tab_2">Random</string>
     <string name="tab_3">Preferences</string>
-    <string name="tab_4">Label 4</string>
-    <string name="tab_5">Label 5</string>
+    <string name="tab_4">Saved Recipe</string>
+
     <string name="instructions">Instructions</string>
 </resources>

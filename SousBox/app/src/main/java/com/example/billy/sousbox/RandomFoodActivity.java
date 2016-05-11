@@ -198,7 +198,6 @@ public class RandomFoodActivity extends AppCompatActivity {
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
                 SpoonacularResults spoonacularResults = response.body();
 
-
                 if (spoonacularResults == null) {
                     return;
                 }
@@ -216,6 +215,10 @@ public class RandomFoodActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * this is for pulling more data and offset it by 100 to not pull the same recipe.
+     */
     private void moreRetrofitRecipePulling() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
@@ -224,12 +227,11 @@ public class RandomFoodActivity extends AppCompatActivity {
 
         searchAPI = retrofit.create(RecipeAPI.class);
 
-        Call<SpoonacularResults> call = searchAPI.searchMoreRecipe(foodType);
+        Call<SpoonacularResults> call = searchAPI.searchMoreRecipe(100, foodType);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
                 SpoonacularResults spoonacularResults = response.body();
-
 
                 if (spoonacularResults == null) {
                     return;

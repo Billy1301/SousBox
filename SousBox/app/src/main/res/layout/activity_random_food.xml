@@ -10,7 +10,6 @@
     tools:context=".RandomFoodActivity">
 
 
-    <include layout="@layout/swipe_item_fragment"/>
 
 
 
