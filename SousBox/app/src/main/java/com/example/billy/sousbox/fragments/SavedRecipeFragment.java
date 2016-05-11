@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.example.billy.sousbox.R;
 import com.example.billy.sousbox.adapters.FirebaseRecipeVIewHolder;
@@ -31,6 +32,8 @@ public class SavedRecipeFragment extends Fragment {
     private FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder> mAdapter;
     Firebase firebaseChild;
     Firebase firebaseRef;
+    private ProgressBar progress;
+
 
     @Nullable
     @Override
@@ -58,6 +61,8 @@ public class SavedRecipeFragment extends Fragment {
                         .resize(300, 300)
                         .centerCrop()
                         .into(holder.recipeImage);
+                progress.setVisibility(View.GONE);
+
             }
         };
         recyclerView.setAdapter(mAdapter);
@@ -162,6 +167,8 @@ public class SavedRecipeFragment extends Fragment {
     public void setViews(android.view.View v){
         recyclerView = (RecyclerView)v.findViewById(R.id.recipeLists_recycleView_id);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        progress = (ProgressBar) v.findViewById(R.id.main_progress_bar_id);
+
     }
 
     @Override

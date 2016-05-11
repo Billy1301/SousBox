@@ -190,6 +190,9 @@ public class IngredientsFragment extends Fragment {
     }
 
 
+    /**
+     * Direct user to webview of instructions and how much ingredients to buy per servings
+     */
     private void setInstructionAndServingButton(){
         instructionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -212,13 +215,13 @@ public class IngredientsFragment extends Fragment {
         });
     }
 
-    private void setInstructionsFragment(){
 
+
+    private void setInstructionsFragment(){
         Fragment instructionsFrag = new InstructionsFragment();
         instructionsFrag.setArguments(instructionBundle);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.addToBackStack(null);
-
         transaction.replace(R.id.fragment_container_id, instructionsFrag);
         transaction.commit();
 

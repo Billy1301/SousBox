@@ -13,7 +13,6 @@
         android:layout_height="match_parent"
         app:rotation_degrees="15.5"/>
 
-
     <LinearLayout
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal|bottom"

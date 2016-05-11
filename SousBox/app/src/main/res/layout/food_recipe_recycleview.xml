@@ -7,8 +7,16 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".RandomFoodActivity">
+    tools:context=".MainActivity"
+    android:orientation="vertical">
 
+    <ProgressBar
+        android:layout_marginTop="50dp"
+        android:id="@+id/main_progress_bar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recipeLists_recycleView_id"

@@ -1,6 +1,9 @@
 package com.example.billy.sousbox.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -10,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.billy.sousbox.Keys.Keys;
@@ -51,41 +55,44 @@ public class SwipeItemFragment extends Fragment {
     private SwipeFlingAdapterView flingContainer;
     private Button dislikeButton;
     private Button likeButton;
-
     Firebase firebaseRef;
     Firebase recipeRef;
     Firebase facebookUserRef;
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.swipe_recipe_fragment, container, false);
         ButterKnife.inject(getActivity());
-
         setRetainInstance(true);
+        checkNetwork();
 
         recipeLists = new ArrayList<>();
         foodType = getSearchFilter();
-        retrofitRecipe();
 
         flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.frame);
         dislikeButton = (Button) v.findViewById(R.id.left);
         likeButton = (Button) v.findViewById(R.id.right);
-
+        retrofitRecipe();
         initiButtons();
-
-        if (isFacebookLoggedIn()){
-            String facebookUserID = getAuthData();
-            firebaseRef = new Firebase("https://sous-box.firebaseio.com/");
-            facebookUserRef = firebaseRef.child(facebookUserID);
-            recipeRef = facebookUserRef.child("recipes");
-        }
-        else {
-
-        }
+        setWhereToSave();
 
         adapter = new CardAdapter(getContext(), recipeLists);
         flingContainer.setAdapter(adapter);
+        setupFlingContainer();
+
+        // an OnItemClickListener
+        initiFlingListener();
+
+        return v;
+    }
+
+    /**
+     * This setup how the swipe container works, left to remove, right to save it
+     */
+    private void setupFlingContainer(){
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
@@ -133,11 +140,33 @@ public class SwipeItemFragment extends Fragment {
                 view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
         });
+    }
 
-        // an OnItemClickListener
-        initiFlingListener();
+    /**
+     * place to save the recipe
+     */
+    private void setWhereToSave(){
+        if (isFacebookLoggedIn()){
+            String facebookUserID = getAuthData();
+            firebaseRef = new Firebase("https://sous-box.firebaseio.com/");
+            facebookUserRef = firebaseRef.child(facebookUserID);
+            recipeRef = facebookUserRef.child("recipes");
+        }
+        else {
 
-        return v;
+        }
+
+    }
+
+    /**
+     * check network and notify if not connected to any network
+     */
+    private void checkNetwork(){
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getActivity(), "No network detected", Toast.LENGTH_LONG).show();
+        }
     }
 
     private boolean isFacebookLoggedIn(){
@@ -145,7 +174,7 @@ public class SwipeItemFragment extends Fragment {
     }
 
     /**
-     * pull up recipe when clicked
+     * to save the info and sent to ingredients page when clicked
      */
     private void initiFlingListener(){
 
