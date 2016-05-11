@@ -10,7 +10,6 @@
     tools:context=".RandomFoodActivity">
 
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recipeLists_recycleView_id"
         android:layout_width="wrap_content"

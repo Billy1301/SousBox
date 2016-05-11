@@ -62,17 +62,17 @@ public class MainActivity extends AppCompatActivity {
     private void initiFragment(){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-
-        if(bottomNavigation.getCurrentItem() == 0){
         fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
-        } else if (bottomNavigation.getCurrentItem()==1){
-            fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
-        }else if (bottomNavigation.getCurrentItem()==2){
-            fragmentTransaction.replace(R.id.fragment_container_id, preferencesFragment);
-        }else if (bottomNavigation.getCurrentItem()==3){
-            fragmentTransaction.replace(R.id.fragment_container_id, savedRecipeFrag);
-        }
 
+//        if(bottomNavigation.getCurrentItem() == 0){
+
+//        } else if (bottomNavigation.getCurrentItem()==1){
+//            fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
+//        }else if (bottomNavigation.getCurrentItem()==2){
+//            fragmentTransaction.replace(R.id.fragment_container_id, preferencesFragment);
+//        }else if (bottomNavigation.getCurrentItem()==3){
+//            fragmentTransaction.replace(R.id.fragment_container_id, savedRecipeFrag);
+//        }
         fragmentTransaction.commit();
 
     }
@@ -118,6 +118,8 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setColored(true);
         // Set current item programmatically
         bottomNavigation.setCurrentItem(0);
+
+
         // Set listener
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override

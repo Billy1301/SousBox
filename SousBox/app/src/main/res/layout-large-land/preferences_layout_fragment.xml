@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <TextView
+        android:text="Settings"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/info"
+        android:textSize="50sp"
+        />
+
+    <com.facebook.login.widget.LoginButton
+        android:textSize="30sp"
+        android:layout_marginTop="15dp"
+        android:id="@+id/login_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        />
+
+        <CheckBox
+            android:textSize="35sp"
+            android:text="All"
+            android:layout_marginTop="50dp"
+            android:id="@+id/allType_checkbox_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+        <CheckBox
+            android:text="Beef"
+            android:textSize="35sp"
+            android:id="@+id/beef_checkbox_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+        <CheckBox
+            android:textSize="35sp"
+            android:text="Pork"
+            android:id="@+id/pork_checkbox_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+        <CheckBox
+            android:textSize="35sp"
+            android:text="Chicken"
+            android:id="@+id/chicken_checkbox_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           />
+
+        <CheckBox
+            android:textSize="35sp"
+            android:text="Seafood"
+            android:id="@+id/seafood_checkout_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           />
+
+        <CheckBox
+            android:textSize="35sp"
+            android:text="Vegetarian"
+            android:id="@+id/vege_checkout_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+
+</LinearLayout>

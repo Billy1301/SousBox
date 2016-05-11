@@ -49,7 +49,7 @@ public class CardAdapter extends ArrayAdapter<SpoonacularObjects> {
         Picasso.with(getContext())
                 .load("https://webknox.com/recipeImages/"+ imageURI)
                 .placeholder(R.drawable.blank_white)
-                .resize(300, 300)
+                .resize(400, 400)
                 .centerCrop()
                 .into(image);
 

@@ -16,7 +16,7 @@
         android:layout_marginLeft="16dp"
         android:text="imageOne Title"
         android:layout_gravity="center"
-        android:textSize="16sp"
+        android:textSize="35sp"
         android:textStyle="bold"
         android:id="@+id/saved_recipe_imageOne_title_id"
         android:layout_width="match_parent"

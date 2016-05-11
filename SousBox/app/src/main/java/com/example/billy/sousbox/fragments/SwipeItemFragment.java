@@ -46,9 +46,8 @@ public class SwipeItemFragment extends Fragment {
     private ArrayList<SpoonacularObjects> recipeLists;
     private CardAdapter adapter;
     private RecipeAPI searchAPI;
-    public final static String MASHAPLE_HEADER = Keys.getMASHAPLE();
     private String foodType;
-    private int OFFSET = 100;
+    private int OFFSET = 0;
     private SwipeFlingAdapterView flingContainer;
     private Button dislikeButton;
     private Button likeButton;
@@ -122,8 +121,8 @@ public class SwipeItemFragment extends Fragment {
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
 
                 if (recipeLists.size() > 3){
-                    //int skip = OFFSET += 100;
-                    moreRetrofitRecipePulling(OFFSET);
+                    OFFSET += 50;
+                    retrofitRecipe();
                 }
             }
 
@@ -207,7 +206,7 @@ public class SwipeItemFragment extends Fragment {
 
         searchAPI = retrofit.create(RecipeAPI.class);
 
-        Call<SpoonacularResults> call = searchAPI.searchRecipe(foodType);
+        Call<SpoonacularResults> call = searchAPI.searchMoreRecipe(OFFSET, foodType);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {

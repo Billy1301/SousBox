@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+
+<android.support.v7.widget.CardView
+    android:layout_marginTop="15dp"
+    android:layout_gravity="top|center"
+    android:layout_width="500dp"
+    android:layout_height="500dp"
+    app:cardCornerRadius="6dp">
+
+    <ImageView
+        android:id="@+id/swipeCardImage"
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"/>
+
+    <View
+        android:id="@+id/item_swipe_left_indicator"
+        android:alpha="0"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:background="#A5F" />
+
+    <View
+        android:id="@+id/item_swipe_right_indicator"
+        android:alpha="0"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="right"
+        android:background="#5AF" />
+
+</android.support.v7.widget.CardView>
+
+    <TextView
+        android:gravity="center"
+        android:textSize="55sp"
+        android:text=" "
+        android:textStyle="bold"
+        android:textColor="@color/colorAccent"
+        android:id="@+id/swipeCard_titleView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+
+</LinearLayout>
