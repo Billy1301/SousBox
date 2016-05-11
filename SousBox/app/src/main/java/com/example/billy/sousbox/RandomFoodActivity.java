@@ -215,6 +215,10 @@ public class RandomFoodActivity extends AppCompatActivity {
         });
     }
 
+
+    /**
+     * this is for pulling more data and offset it by 100 to not pull the same recipe.
+     */
     private void moreRetrofitRecipePulling() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")

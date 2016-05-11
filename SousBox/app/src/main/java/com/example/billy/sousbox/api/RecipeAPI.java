@@ -1,7 +1,6 @@
 package com.example.billy.sousbox.api;
 
 import com.example.billy.sousbox.Keys.Keys;
-import com.example.billy.sousbox.food2forkapi.FoodTwoForkObjects;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -78,18 +78,14 @@ public class IngredientsFragment extends Fragment {
 
         if (isFacebookLoggedIn()){
             String facebookUserID = getAuthData();
-            firebaseRef = new Firebase("https://sous-box.firebaseio.com/users/" + facebookUserID );
-            firebaseRecipe = firebaseRef.child("recipes");
-        } else {
-
-            firebaseRef = new Firebase("https://sous-box.firebaseio.com/users/");
+            firebaseRef = new Firebase("https://sous-box.firebaseio.com/" + facebookUserID );
             firebaseRecipe = firebaseRef.child("recipes");
         }
 
         setHasOptionsMenu(true);
         progress.setVisibility(View.VISIBLE);
         retrofitRecipeID();
-        initiInstructionButton();
+        setInstructionAndServingButton();
         return v;
     }
 
@@ -118,11 +114,13 @@ public class IngredientsFragment extends Fragment {
         }
 
             if (id == R.id.bookmark) {
-                firebaseRecipe.push().setValue(getRecipeObjects.getId());
-                firebaseRecipe.push().setValue(getRecipeObjects.getTitle());
-                firebaseRecipe.push().setValue(getRecipeObjects.getImage());
+                if(isFacebookLoggedIn()) {
+                    //firebaseRecipe.push().setValue(getRecipeObjects);
 
-                Toast.makeText(getActivity(), "Saved", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    Toast.makeText(getContext(), "Please login to bookmark recipe", Toast.LENGTH_SHORT).show();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -187,7 +185,8 @@ public class IngredientsFragment extends Fragment {
         return AccessToken.getCurrentAccessToken() !=null;
     }
 
-    private void initiInstructionButton(){
+
+    private void setInstructionAndServingButton(){
         instructionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

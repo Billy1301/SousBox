@@ -5,16 +5,18 @@ package com.example.billy.sousbox.firebaseModels;
  */
 public class UserLogin {
 
-    private String[] facebookID;
+    private String facebook;
     private Recipes[] recipes;
 
-
-    public String[] getFacebookID() {
-        return facebookID;
+    public UserLogin() {
     }
 
-    public void setFacebookID(String[] facebookID) {
-        this.facebookID = facebookID;
+    public String getFacebook() {
+        return facebook;
+    }
+
+    public void setFacebook(String facebook) {
+        this.facebook = facebook;
     }
 
     public Recipes[] getRecipes() {

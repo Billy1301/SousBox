@@ -9,20 +9,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.example.billy.sousbox.R;
 import com.example.billy.sousbox.adapters.FirebaseRecipeVIewHolder;
-import com.example.billy.sousbox.firebaseModels.FirebaseObjects;
 import com.example.billy.sousbox.firebaseModels.Recipes;
 import com.facebook.AccessToken;
 import com.firebase.client.AuthData;
-import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.Query;
-import com.firebase.client.ValueEventListener;
 import com.firebase.ui.FirebaseRecyclerAdapter;
 import com.squareup.picasso.Picasso;
 
@@ -33,8 +26,8 @@ public class SavedRecipeFragment extends Fragment {
 
     RecyclerView recyclerView;
     private FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder> mAdapter;
-    Firebase mRef;
-    Firebase ref;
+    Firebase firebaseChild;
+    Firebase firebaseRef;
 
     @Nullable
     @Override
@@ -43,26 +36,19 @@ public class SavedRecipeFragment extends Fragment {
         setRetainInstance(true);
         Firebase.setAndroidContext(getContext());
 
-        if (isFacebookLoggedIn()){
-            Log.d("Savedfragemnt", "Facebook Logged in");
+//        if (isFacebookLoggedIn()){
             initFirebase();
-        } else {
-            ref = new Firebase("https://sous-box.firebaseio.com/users/");
-            mRef = ref.child("recipes");
-        }
-
+//        }
         setViews(v);
 
 
 
-        mAdapter = new FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder>(Recipes.class, R.layout.recycleview_custom_layout, FirebaseRecipeVIewHolder.class, mRef) {
+        mAdapter = new FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder>(Recipes.class, R.layout.recycleview_custom_layout, FirebaseRecipeVIewHolder.class, firebaseChild) {
             @Override
             public void populateViewHolder(FirebaseRecipeVIewHolder holder, Recipes recipes, final int position) {
-                String titleNa = recipes.getTitle();
-
+                //String titleNa = recipes.getTitle();
 
                 holder.titleName.setText(recipes.getTitle());
-
 
                 String imageURI = recipes.getImage();
                 if (imageURI.isEmpty()) {
@@ -74,7 +60,6 @@ public class SavedRecipeFragment extends Fragment {
                         .resize(300, 300)
                         .centerCrop()
                         .into(holder.recipeImage);
-
             }
         };
         recyclerView.setAdapter(mAdapter);
@@ -91,8 +76,8 @@ public class SavedRecipeFragment extends Fragment {
 
     private void initFirebase(){
         String facebookUserID = getAuthData();
-        ref = new Firebase("https://sous-box.firebaseio.com/users/" + facebookUserID);
-        mRef = ref.child("recipes");
+        firebaseRef = new Firebase("https://sous-box.firebaseio.com/" + facebookUserID);
+        firebaseChild = firebaseRef.child("recipes");
     }
 
     public void setViews(android.view.View v){

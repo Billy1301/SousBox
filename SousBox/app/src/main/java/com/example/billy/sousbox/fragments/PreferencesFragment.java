@@ -56,17 +56,23 @@ public class PreferencesFragment extends Fragment {
     private FrameLayout fragContainer;
     private FoodListsMainFragment recipeListsFrag;
     private ProgressDialog mAuthProgressDialog;
-    /* A reference to the Firebase */
+
     private Firebase mFirebaseRef;
+
     /* Data from the authenticated user */
     private AuthData mAuthData;
+
     /* Listener for Firebase session changes */
     private Firebase.AuthStateListener mAuthStateListener;
 
     public static CheckBox beefCheckBox, porkCheckBox, chickenCheckBox, vegetarianCheckBox, seafoodCheckbox, allTypeCheckBox;
+
     SharedPreferences sharedPreferences;
 
     QueryFilters queryFilters;
+
+    private Firebase userRefFb;
+    private Firebase groupRefFb;
     //Bundle filterBundle;
 
     //region Checked booleans
@@ -99,11 +105,12 @@ public class PreferencesFragment extends Fragment {
         callbackManager = CallbackManager.Factory.create();
         initiViews(v);
         loginButton.setFragment(this);
-        facebookLogin();
         recipeListsFrag = new FoodListsMainFragment();
         queryFilters = new QueryFilters();
         initiCheckboxClicks();
-
+        fireBase();
+        facebookLogin();
+        logout();
 
         return v;
     }
@@ -111,7 +118,7 @@ public class PreferencesFragment extends Fragment {
     private void fireBase(){
         mAuthProgressDialog = new ProgressDialog(getContext());
         mAuthProgressDialog.setTitle("Loading");
-        mAuthProgressDialog.setMessage("Authenticating with Firebase...");
+        mAuthProgressDialog.setMessage("Authenticating with Facebook...");
         mAuthProgressDialog.setCancelable(false);
         mAuthProgressDialog.show();
 
@@ -134,10 +141,10 @@ public class PreferencesFragment extends Fragment {
         // if user logged in with Facebook, stop tracking their token
         if (mFacebookAccessTokenTracker != null) {
             mFacebookAccessTokenTracker.stopTracking();
-            logout();
         }
         // if changing configurations, stop tracking firebase session.
         mFirebaseRef.removeAuthStateListener(mAuthStateListener);
+
     }
 
     @Override
@@ -413,12 +420,9 @@ public class PreferencesFragment extends Fragment {
         }
     }
 
-
     private boolean isFacebookLoggedIn(){
         return AccessToken.getCurrentAccessToken() !=null;
     }
-
-
 
     private void facebookLogin(){
 
@@ -434,9 +438,7 @@ public class PreferencesFragment extends Fragment {
             loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
                 @Override
                 public void onSuccess(LoginResult loginResult) {
-                    fireBase();
 
-                    Toast.makeText(getActivity(), "You are logged in",Toast.LENGTH_SHORT).show();
                 }
 
                 @Override
@@ -493,9 +495,6 @@ public class PreferencesFragment extends Fragment {
      */
     private void setAuthenticatedUser(AuthData authData) {
         if (authData != null) {
-            /* Hide all the login buttons */
-            //loginButton.setVisibility(View.GONE);
-
             /* show a provider specific status text */
             String name = null;
             if (authData.getProvider().equals("facebook")) {
@@ -505,7 +504,7 @@ public class PreferencesFragment extends Fragment {
                 Timber.i("Invalid provider: " + authData.getProvider());
             }
             if (name != null) {
-//                mLoggedInStatusTextView.setText("Logged in as " + name + " (" + authData.getProvider() + ")");
+                Log.i("Pref Frag", "Logged in as " + name + " (" + authData.getProvider() + ")");
             }
         } else {
             /* No authenticated user show all the login buttons */
@@ -542,14 +541,14 @@ public class PreferencesFragment extends Fragment {
         @Override
         public void onAuthenticated(AuthData authData) {
             mAuthProgressDialog.hide();
-            Timber.i(" " + provider + " auth successful");
+            Timber.i("onAuthenticated:" + provider + " auth successful");
             setAuthenticatedUser(authData);
         }
 
         @Override
         public void onAuthenticationError(FirebaseError firebaseError) {
             mAuthProgressDialog.hide();
-            showErrorDialog(firebaseError.toString());
+//            showErrorDialog(firebaseError.toString());
         }
     }
 

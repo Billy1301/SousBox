@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.billy.sousbox.Keys.Keys;
 import com.example.billy.sousbox.R;
 import com.example.billy.sousbox.adapters.CardAdapter;
+import com.example.billy.sousbox.api.GetRecipeObjects;
 import com.example.billy.sousbox.api.RecipeAPI;
 import com.example.billy.sousbox.api.SpoonacularObjects;
 import com.example.billy.sousbox.api.SpoonacularResults;
@@ -51,18 +52,17 @@ public class SwipeItemFragment extends Fragment {
     private SwipeFlingAdapterView flingContainer;
     private Button dislikeButton;
     private Button likeButton;
-    SpoonacularObjects spoonRecipe;
 
     Firebase firebaseRef;
-    Firebase firebaseRecipe;
-
-
+    Firebase recipeRef;
+    Firebase facebookUserRef;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.swipe_recipe_fragment, container, false);
         ButterKnife.inject(getActivity());
+
         setRetainInstance(true);
 
         recipeLists = new ArrayList<>();
@@ -77,12 +77,12 @@ public class SwipeItemFragment extends Fragment {
 
         if (isFacebookLoggedIn()){
             String facebookUserID = getAuthData();
-            firebaseRef = new Firebase("https://sous-box.firebaseio.com/users/" + facebookUserID );
-            firebaseRecipe = firebaseRef.child("recipes");
+            firebaseRef = new Firebase("https://sous-box.firebaseio.com/");
+            facebookUserRef = firebaseRef.child(facebookUserID);
+            recipeRef = facebookUserRef.child("recipes");
         }
         else {
-            firebaseRef = new Firebase("https://sous-box.firebaseio.com/users/");
-            firebaseRecipe = firebaseRef.child("recipes");
+
         }
 
         adapter = new CardAdapter(getContext(), recipeLists);
@@ -90,21 +90,15 @@ public class SwipeItemFragment extends Fragment {
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
-                // this is the simplest way to delete an object from the Adapter (/AdapterView)
 
             }
 
             @Override
             public void onLeftCardExit(Object dataObject) {
-                //Do something on the dislikeButton!
-                //You also have access to the original object.
-                //If you want to use it just cast it (String) dataObject
-                //Toast.makeText(getActivity(), "Next", Toast.LENGTH_SHORT).show();
+                //dislike swipe
                 recipeLists.remove(0);
                 adapter.notifyDataSetChanged();
-
             }
-
 
             /**
              * pushing like recipe to firebase to pull back from other device
@@ -113,11 +107,11 @@ public class SwipeItemFragment extends Fragment {
             @Override
             public void onRightCardExit(Object dataObject) {
 
-//                firebaseRecipe.push().setValue(recipeLists.get(0).getId());
-                firebaseRecipe.push().setValue(recipeLists.get(0));
+                if(isFacebookLoggedIn()){
+                    recipeRef.push().setValue(recipeLists.get(0));
+                }
                 recipeLists.remove(0);
                 adapter.notifyDataSetChanged();
-
             }
 
             /**
@@ -146,10 +140,14 @@ public class SwipeItemFragment extends Fragment {
 
         return v;
     }
+
     private boolean isFacebookLoggedIn(){
         return AccessToken.getCurrentAccessToken() !=null;
     }
 
+    /**
+     * pull up recipe when clicked
+     */
     private void initiFlingListener(){
 
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {

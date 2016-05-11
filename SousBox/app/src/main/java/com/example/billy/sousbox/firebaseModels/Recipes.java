@@ -8,6 +8,12 @@ public class Recipes {
     private int id;
     private String image;
     private String title;
+    private String readyInMinutes;
+    private String[] imageUrls;
+
+    public Recipes() {
+    }
+
 
     public int getId() {
         return id;
@@ -32,4 +38,27 @@ public class Recipes {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public String getReadyInMinutes() {
+        return readyInMinutes;
+    }
+
+    public void setReadyInMinutes(String readyInMinutes) {
+        this.readyInMinutes = readyInMinutes;
+    }
+
+    public String[] getImageUrls() {
+        return imageUrls;
+    }
+
+    public void setImageUrls(String[] imageUrls) {
+        this.imageUrls = imageUrls;
+    }
+
+    @Override
+    public String toString() {
+
+    return "recipes {id='" + id + "', image='" + image + "', title='" + title + "',readyInMinutes='"+ readyInMinutes+"',imageUrls='" +imageUrls+ "'}";
+    }
+
 }
