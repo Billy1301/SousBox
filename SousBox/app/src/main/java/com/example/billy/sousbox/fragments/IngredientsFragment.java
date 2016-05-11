@@ -24,6 +24,7 @@ import com.example.billy.sousbox.api.GetRecipeObjects;
 import com.example.billy.sousbox.api.RecipeAPI;
 import com.example.billy.sousbox.api.SpoonGetRecipe;
 import com.example.billy.sousbox.api.SpoonacularObjects;
+import com.example.billy.sousbox.firebaseModels.Recipes;
 import com.facebook.AccessToken;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -109,13 +110,16 @@ public class IngredientsFragment extends Fragment {
             startActivity(Intent.createChooser(share, "Sharing"));
 
 //            Toast.makeText(getActivity(),"clicked on share",Toast.LENGTH_SHORT).show();
-
             return true;
         }
-
             if (id == R.id.bookmark) {
                 if(isFacebookLoggedIn()) {
-                    //firebaseRecipe.push().setValue(getRecipeObjects);
+                    //create a new object to match firebase data
+                    Recipes recipes = new Recipes();
+                    recipes.setId(getRecipeObjects.getId());
+                    recipes.setImage(image);
+                    recipes.setTitle(getRecipeObjects.getTitle());
+                    firebaseRecipe.push().setValue(recipes);
 
                 } else {
 

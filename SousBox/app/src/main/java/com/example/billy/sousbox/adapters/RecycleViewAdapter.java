@@ -19,17 +19,13 @@ import java.util.ArrayList;
  */
 public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.RecyclerViewHolder> {
 
-
-    ArrayList<SpoonacularObjects> data;
-    Context context;
+    private ArrayList<SpoonacularObjects> data;
+    private Context context;
     private static OnItemClickListener listener;
-
-
 
     public RecycleViewAdapter(ArrayList<SpoonacularObjects> data) {
         this.data = data;
     }
-
 
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
@@ -39,20 +35,14 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         this.listener = listener;
     }
 
-
-
+    // this is where we setup TextView and item clicker
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
-
-        // this is where we setup TextView and all
         ImageView recipeImageView;
         TextView recipeTitleText;
-
         public RecyclerViewHolder (final View itemView) {
             super(itemView);
-
             recipeImageView = (ImageView) itemView.findViewById(R.id.saved_recipe_imageOne_id);
             recipeTitleText = (TextView) itemView.findViewById(R.id.saved_recipe_imageOne_title_id);
-
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -60,38 +50,29 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                         listener.onItemClick(itemView, getLayoutPosition());
                 }
             });
-
         }
-
     }
+
     @Override
     public void onBindViewHolder(RecyclerViewHolder holder, int position) {
-
         holder.recipeTitleText.setText(data.get(position).getTitle());
-//
         String imageURI = data.get(position).getImage();
         if (imageURI.isEmpty()) {
             imageURI = "R.drawable.blank_white.png";
         }
-
         Picasso.with(context)
                 .load("https://webknox.com/recipeImages/"+ imageURI)
                 .resize(300, 300)
                 .centerCrop()
                 .into(holder.recipeImageView);
-
-
     }
-
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.recycleview_custom_layout, parent, false);
-
         RecyclerViewHolder vh = new RecyclerViewHolder(view);
-
         return vh;
     }
 
@@ -104,5 +85,4 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         //this.data = data;
         notifyDataSetChanged();
     }
-
 }

@@ -1,12 +1,15 @@
 package com.example.billy.sousbox.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,26 +38,21 @@ public class SavedRecipeFragment extends Fragment {
         View v = inflater.inflate(R.layout.food_recipe_recycleview, container, false);
         setRetainInstance(true);
         Firebase.setAndroidContext(getContext());
-
-//        if (isFacebookLoggedIn()){
-            initFirebase();
-//        }
         setViews(v);
-
-
+        setFirebase();
 
         mAdapter = new FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder>(Recipes.class, R.layout.recycleview_custom_layout, FirebaseRecipeVIewHolder.class, firebaseChild) {
             @Override
-            public void populateViewHolder(FirebaseRecipeVIewHolder holder, Recipes recipes, final int position) {
-                //String titleNa = recipes.getTitle();
+            public void populateViewHolder(FirebaseRecipeVIewHolder holder, final Recipes recipes, final int position) {
 
                 holder.titleName.setText(recipes.getTitle());
+                //holder.recipeID.setText(recipes.getId());
+
 
                 String imageURI = recipes.getImage();
                 if (imageURI.isEmpty()) {
                     imageURI = "R.drawable.blank_white.png";
                 }
-
                 Picasso.with(getContext())
                         .load("https://webknox.com/recipeImages/"+ imageURI)
                         .resize(300, 300)
@@ -63,18 +61,99 @@ public class SavedRecipeFragment extends Fragment {
             }
         };
         recyclerView.setAdapter(mAdapter);
-
-
-
+        firebaseRecycerItemClicker();
         return v;
+    }
+
+    /**
+     * Set the itemClicker
+     *
+     * bundle to pass the ID into the API ingredient called
+     */
+    private void firebaseRecycerItemClicker() {
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+                Bundle recipeId = new Bundle();
+                int recipeID = mAdapter.getItem(position).getId();
+                String image = mAdapter.getItem(position).getImage();
+                recipeId.putInt(FoodListsMainFragment.RECIPE_ID_KEY, recipeID);
+                recipeId.putString(FoodListsMainFragment.IMAGE_KEY, image);
+
+                Fragment ingredients = new IngredientsFragment();
+                ingredients.setArguments(recipeId);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragment_container_id, ingredients);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+                mAdapter.getRef(position).removeValue();
+
+            }
+        }));
+    }
+
+    /**
+     * setting up ClickerListener for firebase
+     */
+    public interface ClickListener {
+        void onClick(View view, int position);
+
+        void onLongClick(View view, int position);
+    }
+
+    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
+
+        private GestureDetector gestureDetector;
+        private SavedRecipeFragment.ClickListener clickListener;
+
+        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final SavedRecipeFragment.ClickListener clickListener) {
+            this.clickListener = clickListener;
+            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
+                @Override
+                public boolean onSingleTapUp(MotionEvent e) {
+                    return true;
+                }
+
+                @Override
+                public void onLongPress(MotionEvent e) {
+                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
+                    if (child != null && clickListener != null) {
+                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
+                    }
+                }
+            });
+        }
+
+        @Override
+        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
+
+            View child = rv.findChildViewUnder(e.getX(), e.getY());
+            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
+                clickListener.onClick(child, rv.getChildPosition(child));
+            }
+            return false;
+        }
+
+        @Override
+        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
+        }
+
+        @Override
+        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+        }
     }
 
     private boolean isFacebookLoggedIn(){
         return AccessToken.getCurrentAccessToken() !=null;
     }
 
-
-    private void initFirebase(){
+    private void setFirebase(){
         String facebookUserID = getAuthData();
         firebaseRef = new Firebase("https://sous-box.firebaseio.com/" + facebookUserID);
         firebaseChild = firebaseRef.child("recipes");
@@ -97,7 +176,5 @@ public class SavedRecipeFragment extends Fragment {
         String uID = authData.getUid();
         return uID;
     }
-
-
 
 }
