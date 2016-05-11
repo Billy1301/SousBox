@@ -1,6 +1,9 @@
 package com.example.billy.sousbox.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -11,6 +14,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.billy.sousbox.R;
@@ -42,12 +46,17 @@ public class FoodListsMainFragment extends Fragment {
     private RecipeAPI searchAPI;
     public final static String RECIPE_ID_KEY = "recipeID";
     public final static String IMAGE_KEY = "image";
+    private ProgressBar progress;
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.food_recipe_recycleview, container, false);
         setRetainInstance(true);
+        checkNetwork();
+        progress = (ProgressBar) v.findViewById(R.id.main_progress_bar_id);
+
         recyclerView = (RecyclerView) v.findViewById(R.id.recipeLists_recycleView_id);
         recipeLists = new ArrayList<>();
 
@@ -56,11 +65,8 @@ public class FoodListsMainFragment extends Fragment {
         recycleAdapter = new RecycleViewAdapter(recipeLists);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recycleAdapterItemClicker();
+        progress.setVisibility(View.VISIBLE);
 
-
-//        if (recipeLists.size() < 10 ){
-//            moreRetrofitRecipePulling(100);
-//        }
         return v;
     }
 
@@ -72,6 +78,16 @@ public class FoodListsMainFragment extends Fragment {
         return sharedPreferences.getString(PreferencesFragment.Shared_FILTER_KEY, "");
     }
 
+    /**
+     * check network and notify if not connected to any network
+     */
+    public void checkNetwork(){
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getActivity(), "No network detected", Toast.LENGTH_LONG).show();
+        }
+    }
 
     /**
      * Set the itemClicker for the recycleView
@@ -130,6 +146,7 @@ public class FoodListsMainFragment extends Fragment {
 
                     recyclerView.setAdapter(recycleAdapter);
                     recycleAdapter.notifyDataSetChanged();
+                    progress.setVisibility(View.GONE);
                 }
             }
 
@@ -140,39 +157,4 @@ public class FoodListsMainFragment extends Fragment {
         });
     }
 
-    private void moreRetrofitRecipePulling(int limit) {
-
-        Toast.makeText(getContext(), "getting more lists", Toast.LENGTH_SHORT).show();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        searchAPI = retrofit.create(RecipeAPI.class);
-
-        Call<SpoonacularResults> call = searchAPI.searchMoreRecipe(limit, querySearch);
-        call.enqueue(new Callback<SpoonacularResults>() {
-            @Override
-            public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
-                SpoonacularResults spoonacularResults = response.body();
-
-                if(spoonacularResults == null){
-                    return;
-                }
-
-                Timber.i("pulling more listing");
-                Collections.addAll(recipeLists, spoonacularResults.getResults());
-                long seed = System.nanoTime();
-                Collections.shuffle(recipeLists, new Random(seed));
-                recycleAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<SpoonacularResults> call, Throwable t) {
-                t.printStackTrace();
-
-            }
-        });
-    }
 }

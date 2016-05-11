@@ -4,15 +4,14 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
-        android:id="@+id/frame"
-        android:background="#ffeee9e2"
+        android:id="@+id/swipe_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:rotation_degrees="15.5"/>
-
 
     <LinearLayout
         android:orientation="horizontal"
@@ -22,18 +21,18 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:background="@mipmap/dislike_icon"
             android:id="@+id/left"
             android:layout_margin="15dp"
-            android:text="Skip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="75dp"
+            android:layout_height="75dp" />
 
         <Button
+            android:background="@mipmap/like_icon"
             android:id="@+id/right"
             android:layout_margin="15dp"
-            android:text="Like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="75dp"
+            android:layout_height="75dp" />
 
     </LinearLayout>
 

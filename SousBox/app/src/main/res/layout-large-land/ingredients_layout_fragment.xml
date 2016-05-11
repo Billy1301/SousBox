@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    android:padding="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ProgressBar
+        android:id="@+id/ingredients_progress_bar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="visible"/>
+
+
+    <LinearLayout
+        android:id="@+id/ingredients_linearImage"
+        android:layout_below="@+id/ingredients_progress_bar_id"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:id="@+id/ingredients_imageView_id"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            />
+
+        <TextView
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
+            android:textSize="22sp"
+            android:gravity="center"
+            android:id="@+id/ingredients_titleView_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_marginLeft="16dp"
+        android:layout_toEndOf="@+id/ingredients_linearImage"
+        android:orientation="horizontal"
+        android:id="@+id/ingredients_landscape_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+
+        <Button
+            android:layout_marginStart="16dp"
+            android:textSize="20sp"
+            android:id="@+id/instruction_button_id"
+            android:text="@string/instructions"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"/>
+
+        <Button
+            android:textSize="20sp"
+            android:layout_marginEnd="16dp"
+            android:id="@+id/ingredients_serving_button_id"
+            android:text="servings"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+
+    <ListView
+        android:layout_marginLeft="16dp"
+        android:layout_toEndOf="@+id/ingredients_linearImage"
+        android:layout_below="@+id/ingredients_landscape_layout"
+        android:id="@+id/ingredients_listView_id"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+
+    </ListView>
+
+</RelativeLayout>

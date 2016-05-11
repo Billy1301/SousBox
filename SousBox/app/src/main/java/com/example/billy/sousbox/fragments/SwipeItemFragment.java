@@ -1,6 +1,9 @@
 package com.example.billy.sousbox.fragments;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
@@ -12,10 +15,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.billy.sousbox.Keys.Keys;
 import com.example.billy.sousbox.R;
 import com.example.billy.sousbox.adapters.CardAdapter;
-import com.example.billy.sousbox.api.GetRecipeObjects;
 import com.example.billy.sousbox.api.RecipeAPI;
 import com.example.billy.sousbox.api.SpoonacularObjects;
 import com.example.billy.sousbox.api.SpoonacularResults;
@@ -46,47 +47,49 @@ public class SwipeItemFragment extends Fragment {
     private ArrayList<SpoonacularObjects> recipeLists;
     private CardAdapter adapter;
     private RecipeAPI searchAPI;
-    public final static String MASHAPLE_HEADER = Keys.getMASHAPLE();
     private String foodType;
-    private int OFFSET = 100;
+    private int OFFSET = 0;
     private SwipeFlingAdapterView flingContainer;
     private Button dislikeButton;
     private Button likeButton;
-
     Firebase firebaseRef;
     Firebase recipeRef;
     Firebase facebookUserRef;
+
+
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.swipe_recipe_fragment, container, false);
         ButterKnife.inject(getActivity());
-
         setRetainInstance(true);
+        checkNetwork();
 
         recipeLists = new ArrayList<>();
         foodType = getSearchFilter();
-        retrofitRecipe();
 
-        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.frame);
+        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.swipe_frame);
         dislikeButton = (Button) v.findViewById(R.id.left);
         likeButton = (Button) v.findViewById(R.id.right);
-
+        swipeRecipePulling();
         initiButtons();
-
-        if (isFacebookLoggedIn()){
-            String facebookUserID = getAuthData();
-            firebaseRef = new Firebase("https://sous-box.firebaseio.com/");
-            facebookUserRef = firebaseRef.child(facebookUserID);
-            recipeRef = facebookUserRef.child("recipes");
-        }
-        else {
-
-        }
+        setWhereToSave();
 
         adapter = new CardAdapter(getContext(), recipeLists);
         flingContainer.setAdapter(adapter);
+        setupFlingContainer();
+
+        // an OnItemClickListener
+        initiFlingListener();
+
+        return v;
+    }
+
+    /**
+     * This setup how the swipe container works, left to remove, right to save it
+     */
+    private void setupFlingContainer(){
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
@@ -121,9 +124,8 @@ public class SwipeItemFragment extends Fragment {
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
 
-                if (recipeLists.size() > 3){
-                    //int skip = OFFSET += 100;
-                    moreRetrofitRecipePulling(OFFSET);
+                if(recipeLists.size() > 3){
+                    swipeRecipePullingTwo();
                 }
             }
 
@@ -134,11 +136,33 @@ public class SwipeItemFragment extends Fragment {
                 view.findViewById(R.id.item_swipe_left_indicator).setAlpha(scrollProgressPercent > 0 ? scrollProgressPercent : 0);
             }
         });
+    }
 
-        // an OnItemClickListener
-        initiFlingListener();
+    /**
+     * place to save the recipe
+     */
+    private void setWhereToSave(){
+        if (isFacebookLoggedIn()){
+            String facebookUserID = getAuthData();
+            firebaseRef = new Firebase("https://sous-box.firebaseio.com/");
+            facebookUserRef = firebaseRef.child(facebookUserID);
+            recipeRef = facebookUserRef.child("recipes");
+        }
+        else {
 
-        return v;
+        }
+
+    }
+
+    /**
+     * check network and notify if not connected to any network
+     */
+    private void checkNetwork(){
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getActivity(), "No network detected", Toast.LENGTH_LONG).show();
+        }
     }
 
     private boolean isFacebookLoggedIn(){
@@ -146,7 +170,7 @@ public class SwipeItemFragment extends Fragment {
     }
 
     /**
-     * pull up recipe when clicked
+     * to save the info and sent to ingredients page when clicked
      */
     private void initiFlingListener(){
 
@@ -196,10 +220,11 @@ public class SwipeItemFragment extends Fragment {
 
     }
 
+
     /**
-     * pulling a list of recipes from API
+     * calling api
      */
-    private void retrofitRecipe() {
+    private void swipeRecipePulling() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -212,6 +237,7 @@ public class SwipeItemFragment extends Fragment {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
                 SpoonacularResults spoonacularResults = response.body();
+
                 if (spoonacularResults == null) {
                     return;
                 }
@@ -230,13 +256,11 @@ public class SwipeItemFragment extends Fragment {
         });
     }
 
-    /**
-     * calling api again when arraylist is about to be empty
-     * @param limit
-     */
-    private void moreRetrofitRecipePulling(int limit) {
 
-        Toast.makeText(getContext(),"getting more lists", Toast.LENGTH_SHORT).show();
+    /**
+     * calling api when list almost out to offset
+     */
+    private void swipeRecipePullingTwo() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
@@ -245,7 +269,7 @@ public class SwipeItemFragment extends Fragment {
 
         searchAPI = retrofit.create(RecipeAPI.class);
 
-        Call<SpoonacularResults> call = searchAPI.searchMoreRecipe(limit, foodType);
+        Call<SpoonacularResults> call = searchAPI.swipeSearchMoreRecipes(foodType);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
@@ -255,7 +279,6 @@ public class SwipeItemFragment extends Fragment {
                     return;
                 }
 
-                Timber.i("pulling more listing");
                 Collections.addAll(recipeLists, spoonacularResults.getResults());
                 long seed = System.nanoTime();
                 Collections.shuffle(recipeLists, new Random(seed));
