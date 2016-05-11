@@ -120,7 +120,7 @@ public class IngredientsFragment extends Fragment {
                     recipes.setImage(image);
                     recipes.setTitle(getRecipeObjects.getTitle());
                     firebaseRecipe.push().setValue(recipes);
-
+                    item.setEnabled(false);
                 } else {
 
                     Toast.makeText(getContext(), "Please login to bookmark recipe", Toast.LENGTH_SHORT).show();
