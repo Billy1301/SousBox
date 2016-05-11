@@ -162,7 +162,7 @@ public class IngredientsFragment extends Fragment {
                 }
                 Picasso.with(getContext())
                         .load("https://webknox.com/recipeImages/" + imageURI)
-                        .resize(250, 250)
+                        .resize(400, 400)
                         .centerCrop()
                         .into(recipeImage);
 

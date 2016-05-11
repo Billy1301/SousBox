@@ -13,13 +13,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.billy.sousbox.Keys.Keys;
 import com.example.billy.sousbox.R;
 import com.example.billy.sousbox.adapters.CardAdapter;
-import com.example.billy.sousbox.api.GetRecipeObjects;
 import com.example.billy.sousbox.api.RecipeAPI;
 import com.example.billy.sousbox.api.SpoonacularObjects;
 import com.example.billy.sousbox.api.SpoonacularResults;
@@ -72,10 +69,10 @@ public class SwipeItemFragment extends Fragment {
         recipeLists = new ArrayList<>();
         foodType = getSearchFilter();
 
-        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.frame);
+        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.swipe_frame);
         dislikeButton = (Button) v.findViewById(R.id.left);
         likeButton = (Button) v.findViewById(R.id.right);
-        retrofitRecipe();
+        swipeRecipePulling();
         initiButtons();
         setWhereToSave();
 
@@ -127,9 +124,8 @@ public class SwipeItemFragment extends Fragment {
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
 
-                if (recipeLists.size() > 3){
-                    OFFSET += 50;
-                    retrofitRecipe();
+                if(recipeLists.size() > 3){
+                    swipeRecipePullingTwo();
                 }
             }
 
@@ -224,10 +220,11 @@ public class SwipeItemFragment extends Fragment {
 
     }
 
+
     /**
-     * pulling a list of recipes from API
+     * calling api
      */
-    private void retrofitRecipe() {
+    private void swipeRecipePulling() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -235,11 +232,12 @@ public class SwipeItemFragment extends Fragment {
 
         searchAPI = retrofit.create(RecipeAPI.class);
 
-        Call<SpoonacularResults> call = searchAPI.searchMoreRecipe(OFFSET, foodType);
+        Call<SpoonacularResults> call = searchAPI.searchRecipe(foodType);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
                 SpoonacularResults spoonacularResults = response.body();
+
                 if (spoonacularResults == null) {
                     return;
                 }
@@ -258,13 +256,11 @@ public class SwipeItemFragment extends Fragment {
         });
     }
 
-    /**
-     * calling api again when arraylist is about to be empty
-     * @param limit
-     */
-    private void moreRetrofitRecipePulling(int limit) {
 
-        Toast.makeText(getContext(),"getting more lists", Toast.LENGTH_SHORT).show();
+    /**
+     * calling api when list almost out to offset
+     */
+    private void swipeRecipePullingTwo() {
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
@@ -273,7 +269,7 @@ public class SwipeItemFragment extends Fragment {
 
         searchAPI = retrofit.create(RecipeAPI.class);
 
-        Call<SpoonacularResults> call = searchAPI.searchMoreRecipe(limit, foodType);
+        Call<SpoonacularResults> call = searchAPI.swipeSearchMoreRecipes(foodType);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
@@ -283,7 +279,6 @@ public class SwipeItemFragment extends Fragment {
                     return;
                 }
 
-                Timber.i("pulling more listing");
                 Collections.addAll(recipeLists, spoonacularResults.getResults());
                 long seed = System.nanoTime();
                 Collections.shuffle(recipeLists, new Random(seed));

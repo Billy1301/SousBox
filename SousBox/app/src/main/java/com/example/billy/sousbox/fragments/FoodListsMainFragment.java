@@ -157,44 +157,4 @@ public class FoodListsMainFragment extends Fragment {
         });
     }
 
-    /**
-     * this is to call more next page of recipes. not in use atm
-     * @param limit
-     */
-
-    private void moreRetrofitRecipePulling(int limit) {
-
-        Toast.makeText(getContext(), "getting more lists", Toast.LENGTH_SHORT).show();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        searchAPI = retrofit.create(RecipeAPI.class);
-
-        Call<SpoonacularResults> call = searchAPI.searchMoreRecipe(limit, querySearch);
-        call.enqueue(new Callback<SpoonacularResults>() {
-            @Override
-            public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
-                SpoonacularResults spoonacularResults = response.body();
-
-                if(spoonacularResults == null){
-                    return;
-                }
-
-                Timber.i("pulling more listing");
-                Collections.addAll(recipeLists, spoonacularResults.getResults());
-                long seed = System.nanoTime();
-                Collections.shuffle(recipeLists, new Random(seed));
-                recycleAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<SpoonacularResults> call, Throwable t) {
-                t.printStackTrace();
-
-            }
-        });
-    }
 }

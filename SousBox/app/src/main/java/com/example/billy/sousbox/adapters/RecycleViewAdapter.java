@@ -23,6 +23,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private Context context;
     private static OnItemClickListener listener;
 
+
     public RecycleViewAdapter(ArrayList<SpoonacularObjects> data) {
         this.data = data;
     }
@@ -62,7 +63,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         }
         Picasso.with(context)
                 .load("https://webknox.com/recipeImages/"+ imageURI)
-                .resize(300, 300)
+                .resize(400, 400)
                 .centerCrop()
                 .into(holder.recipeImageView);
     }

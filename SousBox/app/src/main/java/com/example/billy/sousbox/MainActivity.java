@@ -2,14 +2,18 @@ package com.example.billy.sousbox;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -38,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private SwipeItemFragment swipeItemActivityFrag;
     private CallbackManager callbackManager;
     private SavedRecipeFragment savedRecipeFrag;
-    AHBottomNavigation bottomNavigation;
+    private AHBottomNavigation bottomNavigation;
 
 
     @Override
@@ -49,12 +53,13 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-
         initiViews();
-        initiFragment();
         checkNetwork();
         bottomNavi();
 
+        if(savedInstanceState == null){
+            initiFragment();
+        }
     }
 
     @Override
@@ -70,15 +75,7 @@ public class MainActivity extends AppCompatActivity {
     private void initiFragment(){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        if(bottomNavigation.getCurrentItem() == 0){
-            fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
-        } else if (bottomNavigation.getCurrentItem()==1){
-            fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
-        }else if (bottomNavigation.getCurrentItem()==2){
-            fragmentTransaction.replace(R.id.fragment_container_id, preferencesFragment);
-        }else if (bottomNavigation.getCurrentItem()==3){
-            fragmentTransaction.replace(R.id.fragment_container_id, savedRecipeFrag);
-        }
+        fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
         fragmentTransaction.commit();
 
     }
@@ -94,8 +91,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
-
     /**
      * setting up the views
      */
@@ -106,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
         preferencesFragment = new PreferencesFragment();
         fragmentManager = getSupportFragmentManager();
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+
     }
 
     @Override
@@ -129,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setForceTint(true);
         bottomNavigation.setForceTitlesDisplay(true);
         bottomNavigation.setColored(true);
-        //bottomNavigation.setCurrentItem(0);
 
         // Set listener
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
@@ -143,9 +138,11 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
                     fragmentTransaction.commit();
+
                 }
 
                 if(position ==1) {
+
                     toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
                     swipeItemActivityFrag = new SwipeItemFragment();
                     fragmentTransaction = fragmentManager.beginTransaction();
@@ -175,9 +172,12 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Please login to use this feature", Toast.LENGTH_SHORT).show();
                     }
                 }
+                Log.i("Main", "Navi " + bottomNavigation.getCurrentItem());
             }
         });
     }
+
+
 
     /**
      * to check if Facebook login or not

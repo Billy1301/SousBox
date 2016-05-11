@@ -16,18 +16,31 @@ public interface RecipeAPI {
 
 
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
-    @GET("search?limitLicense=false&number=100&offset=0&")
+    @GET("search?limitLicense=false&number=50&offset=0&")
     Call<SpoonacularResults> searchRecipe(@Query("query")String q);
 
-    @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
-    @GET("search?{cuisine=}&limitLicense=false&number=50&offset=0&&query=<required>")
-    Call<SpoonacularResults> searchCuisineRecipe(@Query("cuisine=")String type);
-//                                                @Query("query")String q);
+
 
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
-    @GET("search?limitLicense=false&number=50&{offset=}&")
-    Call<SpoonacularResults> searchMoreRecipe(@Query("offset=")int limit,
-                                                    @Query("query")String q);
+    @GET("search?limitLicense=false&number=50&offset=0&")
+    Call<SpoonacularResults> swipeSearchRecipes(@Query("query") String q);
+
+
+    /**
+     * this is to offset pulling by 50
+     * @param q
+     * @return
+     */
+    @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
+    @GET("search?limitLicense=false&number=50&offset=50&")
+    Call<SpoonacularResults> swipeSearchMoreRecipes(@Query("query") String q);
+
+
+    /**
+     * this is to pull recipe ingredients
+     * @param id
+     * @return
+     */
 
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
     @GET("{id}/information")

@@ -7,8 +7,7 @@
     tools:context=".MainActivity">
 
     <com.lorentzos.flingswipe.SwipeFlingAdapterView
-        android:id="@+id/frame"
-        android:background="#ffeee9e2"
+        android:id="@+id/swipe_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:rotation_degrees="15.5"/>
@@ -22,20 +21,18 @@
         android:layout_marginBottom="100dp">
 
         <Button
+            android:background="@mipmap/dislike_icon"
             android:id="@+id/left"
-            android:textSize="35sp"
             android:layout_margin="15dp"
-            android:text="Skip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="125dp"
+            android:layout_height="125dp" />
 
         <Button
-            android:textSize="35sp"
+            android:background="@mipmap/like_icon"
             android:id="@+id/right"
             android:layout_margin="15dp"
-            android:text="Like"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="125dp"
+            android:layout_height="125dp" />
 
     </LinearLayout>
 

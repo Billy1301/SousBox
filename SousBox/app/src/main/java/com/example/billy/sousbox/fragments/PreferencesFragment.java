@@ -489,7 +489,6 @@ public class PreferencesFragment extends Fragment {
         }
     }
 
-
     /**
      * Once a user is logged in, take the mAuthData provided from Firebase and "use" it.
      */
