@@ -22,6 +22,7 @@ import com.example.billy.sousbox.R;
 
 /**
  * Created by Billy on 5/6/16.
+ * Webview settings
  */
 public class InstructionsFragment extends Fragment {
 

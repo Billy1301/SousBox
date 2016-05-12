@@ -14,7 +14,7 @@ import retrofit2.http.Query;
  */
 public interface RecipeAPI {
 
-    //
+    //delete for final version
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
     @GET("search?limitLicense=false&number=75&offset=0&")
     Call<SpoonacularResults> searchRecipe(@Query("query")String q);
