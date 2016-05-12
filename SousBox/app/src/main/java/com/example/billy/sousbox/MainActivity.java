@@ -131,42 +131,28 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position, boolean wasSelected) {
-
+                fragmentTransaction = fragmentManager.beginTransaction();
                 if(position ==0) {
-                    fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
-                    fragmentTransaction.commit();
-
                 }
-
                 if(position ==1) {
-                    fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
-                    fragmentTransaction.commit();
-
                 }
-
                 if(position ==2) {
-                    fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.fragment_container_id, preferencesFragment);
-                    fragmentTransaction.commit();
                 }
-
                 if(position ==3) {
                     if(isFacebookLoggedIn()) {
-                        fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.replace(R.id.fragment_container_id, savedRecipeFrag);
-                        fragmentTransaction.commit();
                     } else {
-                        Toast.makeText(MainActivity.this, "Please login to use this feature", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, R.string.login_to_use, Toast.LENGTH_SHORT).show();
                     }
                 }
-
-
+                fragmentTransaction.commit();
             }
         });
     }

@@ -13,12 +13,14 @@
         android:layout_height="match_parent"
         app:rotation_degrees="15.5"/>
 
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="75dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
+
 
         <Button
             android:background="@mipmap/dislike_icon"
@@ -35,6 +37,14 @@
             android:layout_height="75dp" />
 
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/swipe_progress_bar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="visible"
+        android:layout_gravity="center" />
 
 
 </FrameLayout>

@@ -1,6 +1,8 @@
 package com.example.billy.sousbox.fragments;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.billy.sousbox.R;
 import com.example.billy.sousbox.adapters.FirebaseRecipeVIewHolder;
@@ -43,7 +46,16 @@ public class SavedRecipeFragment extends Fragment {
         Firebase.setAndroidContext(getContext());
         setViews(v);
         setFirebase();
+        checkNetwork();
+        fireBaseAdapter();
+        firebaseRecycerItemClicker();
+        return v;
+    }
 
+    /**
+     * this is to connect to firebase and pull the saved recipe for user on multiply device
+     */
+    private void fireBaseAdapter(){
         mAdapter = new FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder>(Recipes.class, R.layout.recycleview_custom_layout, FirebaseRecipeVIewHolder.class, firebaseChild) {
             @Override
             public void populateViewHolder(FirebaseRecipeVIewHolder holder, final Recipes recipes, final int position) {
@@ -64,8 +76,17 @@ public class SavedRecipeFragment extends Fragment {
             }
         };
         recyclerView.setAdapter(mAdapter);
-        firebaseRecycerItemClicker();
-        return v;
+    }
+
+    /**
+     * check network and notify if not connected to any network
+     */
+    private void checkNetwork(){
+        ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo == null) {
+            Toast.makeText(getActivity(), "No network detected", Toast.LENGTH_LONG).show();
+        }
     }
 
     /**
@@ -166,7 +187,6 @@ public class SavedRecipeFragment extends Fragment {
         recyclerView = (RecyclerView)v.findViewById(R.id.recipeLists_recycleView_id);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         progress = (ProgressBar) v.findViewById(R.id.main_progress_bar_id);
-
     }
 
     @Override

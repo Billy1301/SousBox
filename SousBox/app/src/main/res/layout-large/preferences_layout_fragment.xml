@@ -4,16 +4,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="32dp">
 
     <TextView
-        android:text="Settings"
+        android:text="@string/settings"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/info"
         android:textSize="45sp"
         />
+
+    <TextView
+        android:layout_marginTop="16dp"
+        android:id="@+id/pref_user_nameDisplay_id"
+        android:textSize="30sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <com.facebook.login.widget.LoginButton
         android:textSize="25sp"
@@ -26,7 +33,7 @@
 
         <CheckBox
             android:textSize="40sp"
-            android:text="All"
+            android:text="@string/all"
             android:layout_marginTop="50dp"
             android:id="@+id/allType_checkbox_id"
             android:layout_width="wrap_content"
@@ -36,7 +43,7 @@
 
         <CheckBox
             android:textSize="40sp"
-            android:text="Beef"
+            android:text="@string/beef"
             android:id="@+id/beef_checkbox_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -45,7 +52,7 @@
 
         <CheckBox
             android:textSize="40sp"
-            android:text="Pork"
+            android:text="@string/pork"
             android:id="@+id/pork_checkbox_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +61,7 @@
 
         <CheckBox
             android:textSize="40sp"
-            android:text="Chicken"
+            android:text="@string/chicken"
             android:id="@+id/chicken_checkbox_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

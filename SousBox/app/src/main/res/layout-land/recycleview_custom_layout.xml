@@ -15,7 +15,7 @@
     <TextView
 
         android:layout_marginLeft="16dp"
-        android:text="imageOne Title"
+        android:text="@string/recipeTitle"
         android:layout_gravity="center"
         android:textSize="16sp"
         android:textStyle="bold"
