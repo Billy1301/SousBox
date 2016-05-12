@@ -36,5 +36,13 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/swipe_progress_bar_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleLarge"
+        android:visibility="visible"
+        android:layout_gravity="center" />
+
 
 </FrameLayout>

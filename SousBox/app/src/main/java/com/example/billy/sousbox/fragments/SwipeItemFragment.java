@@ -36,7 +36,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import timber.log.Timber;
 
 /**
  * Created by Billy on 5/4/16.
@@ -49,7 +48,7 @@ public class SwipeItemFragment extends Fragment {
     private CardAdapter adapter;
     private RecipeAPI searchAPI;
     private String foodType;
-    private int OFFSET = 0;
+    private int offset = 0;
     private SwipeFlingAdapterView flingContainer;
     private Button dislikeButton;
     private Button likeButton;
@@ -109,7 +108,6 @@ public class SwipeItemFragment extends Fragment {
              */
             @Override
             public void onRightCardExit(Object dataObject) {
-
                 if(isFacebookLoggedIn()){
                     recipeRef.push().setValue(recipeLists.get(0));
                 } else{
@@ -125,9 +123,9 @@ public class SwipeItemFragment extends Fragment {
              */
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-
                 if(recipeLists.size() > 3){
-                    swipeRecipePullingTwo();
+                    offset += 50;
+                    swipeRecipePulling();
                 }
             }
 
@@ -153,7 +151,6 @@ public class SwipeItemFragment extends Fragment {
         else {
 
         }
-
     }
 
     /**
@@ -227,7 +224,7 @@ public class SwipeItemFragment extends Fragment {
 
         searchAPI = retrofit.create(RecipeAPI.class);
 
-        Call<SpoonacularResults> call = searchAPI.searchRecipe(foodType);
+        Call<SpoonacularResults> call = searchAPI.recipesAPIcall(offset, foodType);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
@@ -242,6 +239,7 @@ public class SwipeItemFragment extends Fragment {
                 Collections.shuffle(recipeLists, new Random(seed));
                 adapter.notifyDataSetChanged();
                 swipeProgressBar.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -251,44 +249,6 @@ public class SwipeItemFragment extends Fragment {
             }
         });
     }
-
-
-    /**
-     * calling api when list almost out to offset
-     */
-    private void swipeRecipePullingTwo() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        searchAPI = retrofit.create(RecipeAPI.class);
-
-        Call<SpoonacularResults> call = searchAPI.swipeSearchMoreRecipes(foodType);
-        call.enqueue(new Callback<SpoonacularResults>() {
-            @Override
-            public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
-                SpoonacularResults spoonacularResults = response.body();
-
-                if(spoonacularResults == null){
-                    return;
-                }
-
-                Collections.addAll(recipeLists, spoonacularResults.getResults());
-                long seed = System.nanoTime();
-                Collections.shuffle(recipeLists, new Random(seed));
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<SpoonacularResults> call, Throwable t) {
-                t.printStackTrace();
-
-            }
-        });
-    }
-
 
     private String getSearchFilter(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
