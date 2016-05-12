@@ -53,16 +53,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical" />
-
     </FrameLayout>
-
 
         <ListView
             android:id="@+id/ingredients_listView_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
+            android:layout_height="580dp">
         </ListView>
-
-
 </LinearLayout>

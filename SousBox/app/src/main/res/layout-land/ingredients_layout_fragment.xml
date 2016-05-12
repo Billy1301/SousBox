@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:orientation="vertical"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -13,26 +12,37 @@
         style="?android:attr/progressBarStyleLarge"
         android:visibility="visible"/>
 
+    <LinearLayout
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:id="@+id/ingredients_image_title_id"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
         <ImageView
             android:layout_gravity="center"
-            android:layout_marginTop="16dp"
             android:id="@+id/ingredients_imageView_id"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             />
 
         <TextView
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
             android:textStyle="bold"
-            android:textSize="18sp"
+            android:textSize="15sp"
             android:gravity="center"
             android:id="@+id/ingredients_titleView_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             />
+    </LinearLayout>
 
-    <FrameLayout
-        android:padding="16dp"
+
+    <LinearLayout
+        android:layout_marginStart="8dp"
+        android:layout_toEndOf="@+id/ingredients_image_title_id"
+        android:id="@+id/ingredients_button_linear_id"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -49,15 +59,19 @@
             android:text="servings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical" />
+            />
 
-    </FrameLayout>
+    </LinearLayout>
+
 
         <ListView
+            android:layout_toEndOf="@+id/ingredients_image_title_id"
+            android:layout_below="@+id/ingredients_button_linear_id"
             android:id="@+id/ingredients_listView_id"
             android:layout_width="match_parent"
-            android:layout_height="220dp">
+            android:layout_height="175dp">
+
         </ListView>
 
 
-</LinearLayout>
+</RelativeLayout>

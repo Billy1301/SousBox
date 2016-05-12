@@ -61,7 +61,9 @@ public class FoodListsMainFragment extends Fragment {
         recipeLists = new ArrayList<>();
 
         querySearch = getSearchFilter();
+
         retrofitRecipe();
+
         recycleAdapter = new RecycleViewAdapter(recipeLists);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recycleAdapterItemClicker();
@@ -99,9 +101,7 @@ public class FoodListsMainFragment extends Fragment {
             @Override
             public void onItemClick(View view, int position) {
 
-                // Timber.i(String.valueOf(position));
                 recipeLists.get(position);
-
                 Bundle recipeId = new Bundle();
                 int recipe = recipeLists.get(position).getId();
                 String image = recipeLists.get(position).getImage();
