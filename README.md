@@ -13,6 +13,7 @@ This app is an recipe app with a swipe feature to randomly show any single recip
 <br>Login with Facebook to view saved recipes on multiply device
 <br>Swipe view for random selection
 <br>On Random page, swipe left to skip, Swipe right to save recipe
+<br>Click on recipe to pull up ingredients page
 <br>Long click on saved list to delete it
 </p>
 
