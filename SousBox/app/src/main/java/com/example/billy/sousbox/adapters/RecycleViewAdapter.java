@@ -40,6 +40,7 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         ImageView recipeImageView;
         TextView recipeTitleText;
+
         public RecyclerViewHolder (final View itemView) {
             super(itemView);
             recipeImageView = (ImageView) itemView.findViewById(R.id.saved_recipe_imageOne_id);
