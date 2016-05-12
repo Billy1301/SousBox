@@ -49,8 +49,6 @@ public class SavedRecipeFragment extends Fragment {
             public void populateViewHolder(FirebaseRecipeVIewHolder holder, final Recipes recipes, final int position) {
 
                 holder.titleName.setText(recipes.getTitle());
-                //holder.recipeID.setText(recipes.getId());
-
 
                 String imageURI = recipes.getImage();
                 if (imageURI.isEmpty()) {
