@@ -8,13 +8,19 @@
     >
 
     <TextView
-        android:text="Settings"
+        android:text="@string/settings"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/info"
         android:textSize="30sp"
         />
+    <TextView
+        android:layout_marginTop="10dp"
+        android:id="@+id/pref_user_nameDisplay_id"
+        android:textSize="20sp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
     <com.facebook.login.widget.LoginButton
         android:layout_marginTop="15dp"
@@ -32,7 +38,7 @@
 
         <CheckBox
             android:textSize="20sp"
-            android:text="All"
+            android:text="@string/all"
             android:id="@+id/allType_checkbox_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -40,7 +46,7 @@
 
         <CheckBox
             android:textSize="20sp"
-            android:text="Beef"
+            android:text="@string/beef"
             android:id="@+id/beef_checkbox_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,7 +54,7 @@
 
         <CheckBox
             android:textSize="20sp"
-            android:text="Pork"
+            android:text="@string/pork"
             android:id="@+id/pork_checkbox_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -64,7 +70,7 @@
 
         <CheckBox
             android:textSize="20sp"
-            android:text="Chicken"
+            android:text="@string/chicken"
             android:id="@+id/chicken_checkbox_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -72,7 +78,7 @@
 
         <CheckBox
             android:textSize="20sp"
-            android:text="Seafood"
+            android:text="@string/seafood"
             android:id="@+id/seafood_checkout_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -80,7 +86,7 @@
 
         <CheckBox
             android:textSize="20sp"
-            android:text="Vegetarian"
+            android:text="@string/vegetarian"
             android:id="@+id/vege_checkout_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

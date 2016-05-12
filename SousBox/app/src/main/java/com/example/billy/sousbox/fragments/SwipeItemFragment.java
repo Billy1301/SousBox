@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.billy.sousbox.R;
@@ -35,7 +36,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import timber.log.Timber;
 
 /**
  * Created by Billy on 5/4/16.
@@ -48,15 +48,14 @@ public class SwipeItemFragment extends Fragment {
     private CardAdapter adapter;
     private RecipeAPI searchAPI;
     private String foodType;
-    private int OFFSET = 0;
+    private int offset = 0;
     private SwipeFlingAdapterView flingContainer;
     private Button dislikeButton;
     private Button likeButton;
-    Firebase firebaseRef;
-    Firebase recipeRef;
-    Firebase facebookUserRef;
-
-
+    private Firebase firebaseRef;
+    private Firebase recipeRef;
+    private Firebase facebookUserRef;
+    private ProgressBar swipeProgressBar;
 
     @Nullable
     @Override
@@ -65,31 +64,31 @@ public class SwipeItemFragment extends Fragment {
         ButterKnife.inject(getActivity());
         setRetainInstance(true);
         checkNetwork();
-
-        recipeLists = new ArrayList<>();
-        foodType = getSearchFilter();
-
-        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.swipe_frame);
-        dislikeButton = (Button) v.findViewById(R.id.left);
-        likeButton = (Button) v.findViewById(R.id.right);
+        setViews(v);
         swipeRecipePulling();
         initiButtons();
         setWhereToSave();
-
-        adapter = new CardAdapter(getContext(), recipeLists);
-        flingContainer.setAdapter(adapter);
         setupFlingContainer();
-
-        // an OnItemClickListener
         initiFlingListener();
-
         return v;
+    }
+
+    private void setViews(View v){
+        recipeLists = new ArrayList<>();
+        foodType = getSearchFilter();
+        flingContainer = (SwipeFlingAdapterView) v.findViewById(R.id.swipe_frame);
+        dislikeButton = (Button) v.findViewById(R.id.left);
+        likeButton = (Button) v.findViewById(R.id.right);
+        swipeProgressBar = (ProgressBar)v.findViewById(R.id.swipe_progress_bar_id);
+        swipeProgressBar.setVisibility(View.VISIBLE);
     }
 
     /**
      * This setup how the swipe container works, left to remove, right to save it
      */
     private void setupFlingContainer(){
+        adapter = new CardAdapter(getContext(), recipeLists);
+        flingContainer.setAdapter(adapter);
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
@@ -109,9 +108,10 @@ public class SwipeItemFragment extends Fragment {
              */
             @Override
             public void onRightCardExit(Object dataObject) {
-
                 if(isFacebookLoggedIn()){
                     recipeRef.push().setValue(recipeLists.get(0));
+                } else{
+                    Toast.makeText(getContext(),"Login to save", Toast.LENGTH_SHORT).show();
                 }
                 recipeLists.remove(0);
                 adapter.notifyDataSetChanged();
@@ -123,9 +123,9 @@ public class SwipeItemFragment extends Fragment {
              */
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-
                 if(recipeLists.size() > 3){
-                    swipeRecipePullingTwo();
+                    offset += 50;
+                    swipeRecipePulling();
                 }
             }
 
@@ -151,7 +151,6 @@ public class SwipeItemFragment extends Fragment {
         else {
 
         }
-
     }
 
     /**
@@ -173,12 +172,9 @@ public class SwipeItemFragment extends Fragment {
      * to save the info and sent to ingredients page when clicked
      */
     private void initiFlingListener(){
-
         flingContainer.setOnItemClickListener(new SwipeFlingAdapterView.OnItemClickListener() {
             @Override
             public void onItemClicked(int itemPosition, Object dataObject) {
-
-
                 Bundle recipeId = new Bundle();
 //                for (SpoonacularObjects objects : recipeLists){
 //                    Log.d(TAG, "Object in list: "+ objects.getId() + " and "+ getCurrentID);
@@ -187,15 +183,12 @@ public class SwipeItemFragment extends Fragment {
                 String image = recipeLists.get(0).getImage();
                 recipeId.putInt(FoodListsMainFragment.RECIPE_ID_KEY, getCurrentID);
                 recipeId.putString(FoodListsMainFragment.IMAGE_KEY, image);
-
                 Fragment ingredients = new IngredientsFragment();
                 ingredients.setArguments(recipeId);
-
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.addToBackStack(null);
                 transaction.replace(R.id.fragment_container_id, ingredients);
                 transaction.commit();
-
             }
         });
     }
@@ -210,7 +203,6 @@ public class SwipeItemFragment extends Fragment {
                 flingContainer.getTopCardListener().selectLeft();
             }
         });
-
         likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -232,7 +224,7 @@ public class SwipeItemFragment extends Fragment {
 
         searchAPI = retrofit.create(RecipeAPI.class);
 
-        Call<SpoonacularResults> call = searchAPI.searchRecipe(foodType);
+        Call<SpoonacularResults> call = searchAPI.recipesAPIcall(offset, foodType);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
@@ -246,6 +238,8 @@ public class SwipeItemFragment extends Fragment {
                 long seed = System.nanoTime();
                 Collections.shuffle(recipeLists, new Random(seed));
                 adapter.notifyDataSetChanged();
+                swipeProgressBar.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -255,44 +249,6 @@ public class SwipeItemFragment extends Fragment {
             }
         });
     }
-
-
-    /**
-     * calling api when list almost out to offset
-     */
-    private void swipeRecipePullingTwo() {
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        searchAPI = retrofit.create(RecipeAPI.class);
-
-        Call<SpoonacularResults> call = searchAPI.swipeSearchMoreRecipes(foodType);
-        call.enqueue(new Callback<SpoonacularResults>() {
-            @Override
-            public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
-                SpoonacularResults spoonacularResults = response.body();
-
-                if(spoonacularResults == null){
-                    return;
-                }
-
-                Collections.addAll(recipeLists, spoonacularResults.getResults());
-                long seed = System.nanoTime();
-                Collections.shuffle(recipeLists, new Random(seed));
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onFailure(Call<SpoonacularResults> call, Throwable t) {
-                t.printStackTrace();
-
-            }
-        });
-    }
-
 
     private String getSearchFilter(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());

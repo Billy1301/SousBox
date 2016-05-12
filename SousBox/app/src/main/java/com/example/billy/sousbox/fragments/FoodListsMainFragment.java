@@ -32,22 +32,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-import timber.log.Timber;
 
 /**
  * Created by Billy on 5/4/16.
  */
-public class FoodListsMainFragment extends Fragment {
+public class FoodListsMainFragment extends Fragment implements RecycleViewAdapter.RecipeScrollListener {
 
     private RecycleViewAdapter recycleAdapter;
     private RecyclerView recyclerView;
     private ArrayList<SpoonacularObjects> recipeLists;
     private String querySearch;
     private RecipeAPI searchAPI;
+    private int offset = 0;
     public final static String RECIPE_ID_KEY = "recipeID";
     public final static String IMAGE_KEY = "image";
     private ProgressBar progress;
-
+    int position;
 
     @Nullable
     @Override
@@ -64,7 +64,7 @@ public class FoodListsMainFragment extends Fragment {
 
         retrofitRecipe();
 
-        recycleAdapter = new RecycleViewAdapter(recipeLists);
+        recycleAdapter = new RecycleViewAdapter(recipeLists, this);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recycleAdapterItemClicker();
         progress.setVisibility(View.VISIBLE);
@@ -128,7 +128,7 @@ public class FoodListsMainFragment extends Fragment {
 
         searchAPI = retrofit.create(RecipeAPI.class);
 
-        Call<SpoonacularResults> call = searchAPI.searchRecipe(querySearch);
+        Call<SpoonacularResults> call = searchAPI.recipesAPIcall(offset, querySearch);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
@@ -141,13 +141,13 @@ public class FoodListsMainFragment extends Fragment {
                 Collections.addAll(recipeLists, spoonacularResults.getResults());
 
                 if (recyclerView != null) {
-                    long seed = System.nanoTime();
-                    Collections.shuffle(recipeLists, new Random(seed));
-
+//                    long seed = System.nanoTime();
+//                    Collections.shuffle(recipeLists, new Random(seed));
                     recyclerView.setAdapter(recycleAdapter);
-                    recycleAdapter.notifyDataSetChanged();
+                    recycleAdapter.notifyItemRangeInserted(position, spoonacularResults.getResults().length);
                     progress.setVisibility(View.GONE);
                 }
+
             }
 
             @Override
@@ -156,5 +156,13 @@ public class FoodListsMainFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void loadNewRecipes(int position) {
+        this.position = position;
+        offset += 50;
+        retrofitRecipe();
+    }
+
 
 }

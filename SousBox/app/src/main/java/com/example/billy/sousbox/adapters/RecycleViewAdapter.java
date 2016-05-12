@@ -22,10 +22,15 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private ArrayList<SpoonacularObjects> data;
     private Context context;
     private static OnItemClickListener listener;
+    private final RecipeScrollListener recipeScrollListener;
 
+    public interface RecipeScrollListener {
+        void loadNewRecipes(int position);
+    }
 
-    public RecycleViewAdapter(ArrayList<SpoonacularObjects> data) {
+    public RecycleViewAdapter(ArrayList<SpoonacularObjects> data, RecipeScrollListener recipeScrollListener) {
         this.data = data;
+        this.recipeScrollListener = recipeScrollListener;
     }
 
     public interface OnItemClickListener {
@@ -67,6 +72,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 .resize(400, 400)
                 .centerCrop()
                 .into(holder.recipeImageView);
+
+        if (position == data.size()-2){
+            recipeScrollListener.loadNewRecipes(position);
+        }
     }
 
     @Override
