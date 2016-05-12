@@ -96,9 +96,11 @@ public class MainActivity extends AppCompatActivity {
     private void initiViews(){
         callbackManager = CallbackManager.Factory.create();
         fragContainer = (FrameLayout)findViewById(R.id.fragment_container_id);
+        fragmentManager = getSupportFragmentManager();
         recipeListsFrag = new FoodListsMainFragment();
         preferencesFragment = new PreferencesFragment();
-        fragmentManager = getSupportFragmentManager();
+        swipeItemActivityFrag = new SwipeItemFragment();
+        savedRecipeFrag = new SavedRecipeFragment();
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
     }
@@ -131,7 +133,6 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(int position, boolean wasSelected) {
 
                 if(position ==0) {
-                    swipeItemActivityFrag = new SwipeItemFragment();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
@@ -140,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(position ==1) {
-                    recipeListsFrag = new FoodListsMainFragment();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(position ==2) {
-                    preferencesFragment = new PreferencesFragment();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
                     fragmentTransaction.replace(R.id.fragment_container_id, preferencesFragment);
@@ -158,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if(position ==3) {
                     if(isFacebookLoggedIn()) {
-                        savedRecipeFrag = new SavedRecipeFragment();
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.addToBackStack(null);
                         fragmentTransaction.replace(R.id.fragment_container_id, savedRecipeFrag);
@@ -167,6 +165,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Please login to use this feature", Toast.LENGTH_SHORT).show();
                     }
                 }
+
+
             }
         });
     }
