@@ -75,9 +75,8 @@ public class MainActivity extends AppCompatActivity {
     private void initiFragment(){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
-        fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
+        fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
         fragmentTransaction.commit();
-
     }
 
     /**
@@ -113,8 +112,8 @@ public class MainActivity extends AppCompatActivity {
      * bottom Navi SDK  - each tab will change to the fragment of choose
      */
     private void bottomNavi(){
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_menu_gallery, R.color.colorPrimary);
-        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_random, R.color.colorPrimary);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_random, R.color.colorPrimary);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_menu_gallery, R.color.colorPrimary);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.ic_menu_manage, R.color.colorPrimaryDark);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.tab_4, R.drawable.ic_saved_icon, R.color.colorPrimaryDark);
         bottomNavigation.addItem(item1);
@@ -132,7 +131,15 @@ public class MainActivity extends AppCompatActivity {
             public void onTabSelected(int position, boolean wasSelected) {
 
                 if(position ==0) {
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+                    swipeItemActivityFrag = new SwipeItemFragment();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.addToBackStack(null);
+                    fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
+                    fragmentTransaction.commit();
+
+                }
+
+                if(position ==1) {
                     recipeListsFrag = new FoodListsMainFragment();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
@@ -141,18 +148,7 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
-                if(position ==1) {
-
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-                    swipeItemActivityFrag = new SwipeItemFragment();
-                    fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
-                    fragmentTransaction.commit();
-                }
-
                 if(position ==2) {
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     preferencesFragment = new PreferencesFragment();
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.addToBackStack(null);
@@ -161,7 +157,6 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if(position ==3) {
-                    toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
                     if(isFacebookLoggedIn()) {
                         savedRecipeFrag = new SavedRecipeFragment();
                         fragmentTransaction = fragmentManager.beginTransaction();
@@ -172,12 +167,9 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "Please login to use this feature", Toast.LENGTH_SHORT).show();
                     }
                 }
-                Log.i("Main", "Navi " + bottomNavigation.getCurrentItem());
             }
         });
     }
-
-
 
     /**
      * to check if Facebook login or not

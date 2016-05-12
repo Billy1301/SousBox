@@ -1,8 +1,8 @@
 
-
 Sous Box v1
+   
 
-This app is an recipe app with a swipe feature to randomly show any single recipe for you. The app still have an option to display recipes in a list for you to choose. The swipe single item is for you to view and decide if you want to save it for later or skip. 
+This is an recipe app with a swipe feature to randomly show any single recipe for the user. The app have an option to display recipes in a list view. The random recipe will use the swiping feature for any user that want a suggestion on what to make for lunch or dinner. You will be able to filter recipe preference.
 
 ----------------------
 
@@ -32,6 +32,10 @@ A Tablet view: <br>
 
 <p>Created by: Bill Ly</p>
 
+
+<br>
+<p>Please note: To keep the recipes free to the public, all recipes instruction and serving calculation will be directed to the owner site within the app.</p>
+
 --------------------
 
 <p>Known Bugs:
@@ -39,6 +43,7 @@ A Tablet view: <br>
 
 <br>
 <br>Future version: 
+<br> More filter options
 <br> When a user choose not to login, able to save 10 recipes within per device to view later
 <br> When a user dislike a recipe on the Swiping page, it will not show up for a few days
 
