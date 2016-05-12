@@ -10,9 +10,7 @@
         style="?android:attr/progressBarStyleLarge"
         android:visibility="visible"/>
 
-
     <WebView
-
         android:id="@+id/instruction_web_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
