@@ -43,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class IngredientsFragment extends Fragment {
 
+    //region Private Variables
     private ArrayList<String> ingredientLists;
     private ArrayAdapter adapter;
     private RecipeAPI searchAPI;
@@ -54,35 +55,23 @@ public class IngredientsFragment extends Fragment {
     private Button instructionButton;
     private Button servingsButton;
     private GetRecipeObjects getRecipeObjects;
-    private SpoonacularObjects spoonacularObjects;
     private ProgressBar progress;
-    public final static String URL_KEY = "URL";
-   // public final static String SPOON_URL_KEY = "SPOON URL";
     private Bundle instructionBundle;
+    private Firebase firebaseRef;
+    private Firebase firebaseRecipe;
+    //endregion Private Variables
 
-    Firebase firebaseRef;
-    Firebase firebaseRecipe;
-
+    public final static String URL_KEY = "URL";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.ingredients_layout_fragment, container, false);
         setRetainInstance(true);
-
-        recipeImage = (ImageView) v.findViewById(R.id.ingredients_imageView_id);
-        title = (TextView) v.findViewById(R.id.ingredients_titleView_id);
-        ingredientsLV = (ListView)v.findViewById(R.id.ingredients_listView_id);
-        instructionButton = (Button) v.findViewById(R.id.instruction_button_id);
-        progress = (ProgressBar) v.findViewById(R.id.ingredients_progress_bar_id);
-        servingsButton = (Button)v.findViewById(R.id.ingredients_serving_button_id);
-
-        if (isFacebookLoggedIn()){
-            String facebookUserID = getAuthData();
-            firebaseRef = new Firebase("https://sous-box.firebaseio.com/" + facebookUserID );
-            firebaseRecipe = firebaseRef.child("recipes");
+        setViews(v);
+        if(isFacebookLoggedIn()){
+          firebase();
         }
-
         setHasOptionsMenu(true);
         progress.setVisibility(View.VISIBLE);
         retrofitRecipeID();
@@ -90,11 +79,32 @@ public class IngredientsFragment extends Fragment {
         return v;
     }
 
+    private void setViews(View v){
+        recipeImage = (ImageView) v.findViewById(R.id.ingredients_imageView_id);
+        title = (TextView) v.findViewById(R.id.ingredients_titleView_id);
+        ingredientsLV = (ListView)v.findViewById(R.id.ingredients_listView_id);
+        instructionButton = (Button) v.findViewById(R.id.instruction_button_id);
+        progress = (ProgressBar) v.findViewById(R.id.ingredients_progress_bar_id);
+        servingsButton = (Button)v.findViewById(R.id.ingredients_serving_button_id);
+
+    }
+
+    private void firebase(){
+        String facebookUserID = getAuthData();
+        firebaseRef = new Firebase("https://sous-box.firebaseio.com/" + facebookUserID );
+        firebaseRecipe = firebaseRef.child("recipes");
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.main, menu);
     }
 
+    /**
+     * For share intent and saving recipe
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -102,14 +112,11 @@ public class IngredientsFragment extends Fragment {
         String getURL = getRecipeObjects.getSpoonacularSourceUrl();
 
         if (id == R.id.share_settings) {
-
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("text/plain");
             share.putExtra(Intent.EXTRA_TEXT, getURL);
             share.putExtra(Intent.EXTRA_SUBJECT, "Check out this recipe!");
             startActivity(Intent.createChooser(share, "Sharing"));
-
-//            Toast.makeText(getActivity(),"clicked on share",Toast.LENGTH_SHORT).show();
             return true;
         }
             if (id == R.id.bookmark) {
@@ -122,14 +129,16 @@ public class IngredientsFragment extends Fragment {
                     firebaseRecipe.push().setValue(recipes);
                     item.setEnabled(false);
                 } else {
-
-                    Toast.makeText(getContext(), "Please login to bookmark recipe", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.login_to_save, Toast.LENGTH_SHORT).show();
                 }
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * To pull recipe by ID for ingredients
+     */
     private void retrofitRecipeID() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
@@ -137,25 +146,19 @@ public class IngredientsFragment extends Fragment {
                 .build();
 
         searchAPI = retrofit.create(RecipeAPI.class);
-
         Bundle bundle = getArguments();
         id = bundle.getInt(FoodListsMainFragment.RECIPE_ID_KEY);
         image = bundle.getString(FoodListsMainFragment.IMAGE_KEY);
-
 
         Call<GetRecipeObjects> call = searchAPI.getRecipeIngredients(id);
         call.enqueue(new Callback<GetRecipeObjects>() {
             @Override
             public void onResponse(Call<GetRecipeObjects> call, Response<GetRecipeObjects> response) {
                 getRecipeObjects = response.body();
-
-
                 if (getRecipeObjects == null) {
                     return;
                 }
-
                 title.setText(getRecipeObjects.getTitle());
-
                 String imageURI = image;
                 if (imageURI.isEmpty()) {
                     imageURI = "R.drawable.blank_white.png";
@@ -167,12 +170,10 @@ public class IngredientsFragment extends Fragment {
                         .into(recipeImage);
 
                 ingredientLists = new ArrayList<>();
-
                 SpoonGetRecipe[] recipe = getRecipeObjects.getExtendedIngredients();
                 for (int i = 0; i < recipe.length; i++) {
                     ingredientLists.add(recipe[i].getOriginalString());
                 }
-
                 adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, ingredientLists);
                 ingredientsLV.setAdapter(adapter);
                 progress.setVisibility(View.GONE);
@@ -185,6 +186,11 @@ public class IngredientsFragment extends Fragment {
             }
         });
     }
+
+    /**
+     * to use for checking Facebook login
+     * @return
+     */
     private boolean isFacebookLoggedIn(){
         return AccessToken.getCurrentAccessToken() !=null;
     }
@@ -200,7 +206,7 @@ public class IngredientsFragment extends Fragment {
                 String url = getRecipeObjects.getSourceUrl();
                 instructionBundle = new Bundle();
                 instructionBundle.putString(URL_KEY, url);
-                setInstructionsFragment();
+                setWebViewFragment();
             }
         });
 
@@ -210,14 +216,15 @@ public class IngredientsFragment extends Fragment {
                 String servingURL = getRecipeObjects.getSpoonacularSourceUrl();
                 instructionBundle = new Bundle();
                 instructionBundle.putString(URL_KEY, servingURL);
-                setInstructionsFragment();
+                setWebViewFragment();
             }
         });
     }
 
-
-
-    private void setInstructionsFragment(){
+    /**
+     * to send bundle information to fragment to display view
+     */
+    private void setWebViewFragment(){
         Fragment instructionsFrag = new InstructionsFragment();
         instructionsFrag.setArguments(instructionBundle);
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
@@ -227,6 +234,10 @@ public class IngredientsFragment extends Fragment {
 
     }
 
+    /**
+     * to get Facebook ID
+     * @return
+     */
     private String getAuthData() {
         Firebase firebase = new Firebase("https://sous-box.firebaseio.com");
         AuthData authData = firebase.getAuth();

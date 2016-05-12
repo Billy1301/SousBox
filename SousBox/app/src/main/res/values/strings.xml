@@ -17,4 +17,6 @@
     <string name="vegetarian">Vegetarian</string>
     <string name="recipeTitle">recipe title</string>
     <string name="login_to_use">Please login to use this feature</string>
+    <string name="no_network">No network detected</string>
+    <string name="login_to_save">Please login to save recipe</string>
 </resources>

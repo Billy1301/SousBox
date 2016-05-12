@@ -160,7 +160,7 @@ public class SwipeItemFragment extends Fragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            Toast.makeText(getActivity(), "No network detected", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), R.string.no_network, Toast.LENGTH_LONG).show();
         }
     }
 
