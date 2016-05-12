@@ -16,7 +16,7 @@ public interface RecipeAPI {
 
 
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
-    @GET("search?limitLicense=false&number=50&offset=0&")
+    @GET("search?limitLicense=false&number=75&offset=0&")
     Call<SpoonacularResults> searchRecipe(@Query("query")String q);
 
 
@@ -27,12 +27,12 @@ public interface RecipeAPI {
 
 
     /**
-     * this is to offset pulling by 50
+     * this is to offset pulling by 75
      * @param q
      * @return
      */
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
-    @GET("search?limitLicense=false&number=50&offset=50&")
+    @GET("search?limitLicense=false&number=75&offset=75&")
     Call<SpoonacularResults> swipeSearchMoreRecipes(@Query("query") String q);
 
 
