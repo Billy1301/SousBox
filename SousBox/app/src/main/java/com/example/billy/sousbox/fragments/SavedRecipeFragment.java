@@ -56,7 +56,8 @@ public class SavedRecipeFragment extends Fragment {
      * this is to connect to firebase and pull the saved recipe for user on multiply device
      */
     private void fireBaseAdapter(){
-        mAdapter = new FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder>(Recipes.class, R.layout.recycleview_custom_layout, FirebaseRecipeVIewHolder.class, firebaseChild) {
+        mAdapter = new FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder>(Recipes.class,
+                R.layout.recycleview_custom_layout, FirebaseRecipeVIewHolder.class, firebaseChild) {
             @Override
             public void populateViewHolder(FirebaseRecipeVIewHolder holder, final Recipes recipes, final int position) {
                 holder.titleName.setText(recipes.getTitle());
