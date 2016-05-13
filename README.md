@@ -23,7 +23,7 @@ Mobile version views:<br>
 <img src="http://imgur.com/i8TdUK3.png" width = "150" height = "250">
 <img src="http://i.imgur.com/OAMDxfj.png" width = "150" height = "250">
 <br>
-<img src="http://i.imgur.com/5xkGoxC.png" width = "250" height = "150">
+<img src="http://i.imgur.com/sHrZYnn.png" width = "250" height = "150">
 
 <br>
 A Tablet view: <br>

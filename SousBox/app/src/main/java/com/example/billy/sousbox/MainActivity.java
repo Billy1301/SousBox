@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            Toast.makeText(MainActivity.this, R.string.no_network_detected, Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
         }
     }
 
