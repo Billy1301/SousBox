@@ -33,8 +33,8 @@ public class SavedRecipeFragment extends Fragment {
 
     RecyclerView recyclerView;
     private FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder> mAdapter;
-    Firebase firebaseChild;
-    Firebase firebaseRef;
+    private Firebase firebaseChild;
+    private Firebase firebaseRef;
     private ProgressBar progress;
 
 
