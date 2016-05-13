@@ -457,10 +457,10 @@ public class PreferencesFragment extends Fragment {
             if (this.mAuthData.getProvider().equals("facebook")) {
                 /* Logout from Facebook */
                 LoginManager.getInstance().logOut();
+                facebookUserName.setText("");
             }
             /* Update authenticated user and show login buttons */
             setAuthenticatedUser(null);
-            facebookUserName.setText("");
         }
     }
 

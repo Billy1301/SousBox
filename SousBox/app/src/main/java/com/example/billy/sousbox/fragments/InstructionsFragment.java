@@ -30,6 +30,7 @@ public class InstructionsFragment extends Fragment {
     private ProgressBar progress;
     private String htmlSaveForLater;
     private String instructionURL;
+    private String WEBVIEW_JAVASCRIPT = "javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');";
 
 
     @Nullable
@@ -57,7 +58,6 @@ public class InstructionsFragment extends Fragment {
     private class WebViewClientDemo extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-
             progress.setVisibility(View.VISIBLE);
             view.loadUrl(url);
             return true;
@@ -66,7 +66,7 @@ public class InstructionsFragment extends Fragment {
         @Override
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
-            instructionsWebView.loadUrl("javascript:window.HTMLOUT.showHTML('<head>'+document.getElementsByTagName('html')[0].innerHTML+'</head>');");
+            instructionsWebView.loadUrl(WEBVIEW_JAVASCRIPT);
             progress.setVisibility(View.GONE);
 
         }
