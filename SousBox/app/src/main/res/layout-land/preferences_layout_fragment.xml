@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:layout_marginStart="16dp"
     >
 
     <TextView
@@ -45,6 +45,7 @@
             />
 
         <CheckBox
+            android:layout_marginStart="16dp"
             android:textSize="20sp"
             android:text="@string/beef"
             android:id="@+id/beef_checkbox_id"
@@ -53,6 +54,7 @@
             />
 
         <CheckBox
+            android:layout_marginStart="16dp"
             android:textSize="20sp"
             android:text="@string/pork"
             android:id="@+id/pork_checkbox_id"
@@ -77,6 +79,7 @@
             />
 
         <CheckBox
+            android:layout_marginStart="16dp"
             android:textSize="20sp"
             android:text="@string/seafood"
             android:id="@+id/seafood_checkout_id"
@@ -85,6 +88,7 @@
             />
 
         <CheckBox
+            android:layout_marginStart="16dp"
             android:textSize="20sp"
             android:text="@string/vegetarian"
             android:id="@+id/vege_checkout_id"

@@ -90,7 +90,7 @@ public class IngredientsFragment extends Fragment {
 
     private void firebase(){
         String facebookUserID = getAuthData();
-        firebaseRef = new Firebase("https://sous-box.firebaseio.com/" + facebookUserID );
+        firebaseRef = new Firebase(SwipeItemFragment.Firebase_Link + facebookUserID );
         firebaseRecipe = firebaseRef.child("recipes");
     }
 
@@ -114,8 +114,8 @@ public class IngredientsFragment extends Fragment {
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("text/plain");
             share.putExtra(Intent.EXTRA_TEXT, getURL);
-            share.putExtra(Intent.EXTRA_SUBJECT, "Check out this recipe!");
-            startActivity(Intent.createChooser(share, "Sharing"));
+            share.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.share_msg));
+            startActivity(Intent.createChooser(share, getString(R.string.sharing)));
             return true;
         }
             if (id == R.id.bookmark) {
@@ -127,6 +127,7 @@ public class IngredientsFragment extends Fragment {
                     recipes.setTitle(getRecipeObjects.getTitle());
                     firebaseRecipe.push().setValue(recipes);
                     item.setEnabled(false);
+                    Toast.makeText(getContext(), R.string.recipe_saved, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getContext(), R.string.login_to_save, Toast.LENGTH_SHORT).show();
                 }

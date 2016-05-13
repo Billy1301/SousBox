@@ -43,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class SwipeItemFragment extends Fragment {
 
+    //region Private Variables
     private static final String TAG = "SwipeItemFragment: ";
     private ArrayList<SpoonacularObjects> recipeLists;
     private CardAdapter adapter;
@@ -56,6 +57,10 @@ public class SwipeItemFragment extends Fragment {
     private Firebase recipeRef;
     private Firebase facebookUserRef;
     private ProgressBar swipeProgressBar;
+    //endregion Private Variables
+
+    public static final String Firebase_Link = "https://sous-box.firebaseio.com/";
+
 
     @Nullable
     @Override
@@ -144,7 +149,7 @@ public class SwipeItemFragment extends Fragment {
     private void setWhereToSave(){
         if (isFacebookLoggedIn()){
             String facebookUserID = getAuthData();
-            firebaseRef = new Firebase("https://sous-box.firebaseio.com/");
+            firebaseRef = new Firebase(Firebase_Link);
             facebookUserRef = firebaseRef.child(facebookUserID);
             recipeRef = facebookUserRef.child("recipes");
         }

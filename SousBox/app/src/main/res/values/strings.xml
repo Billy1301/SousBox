@@ -20,4 +20,7 @@
     <string name="no_network">No network detected</string>
     <string name="login_to_save">Please login to save recipe</string>
     <string name="authen_with_facebook">Authenticating with Facebook...</string>
+    <string name="recipe_saved">Recipe Saved</string>
+    <string name="share_msg">Check out this recipe!</string>
+    <string name="sharing">Sharing</string>
 </resources>

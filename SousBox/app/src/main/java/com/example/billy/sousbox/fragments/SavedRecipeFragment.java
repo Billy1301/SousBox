@@ -177,7 +177,7 @@ public class SavedRecipeFragment extends Fragment {
 
     private void setFirebase(){
         String facebookUserID = getAuthData();
-        firebaseRef = new Firebase("https://sous-box.firebaseio.com/" + facebookUserID);
+        firebaseRef = new Firebase(SwipeItemFragment.Firebase_Link + facebookUserID);
         firebaseChild = firebaseRef.child("recipes");
     }
 
@@ -194,7 +194,7 @@ public class SavedRecipeFragment extends Fragment {
     }
 
     private String getAuthData() {
-        Firebase firebase = new Firebase("https://sous-box.firebaseio.com");
+        Firebase firebase = new Firebase(SwipeItemFragment.Firebase_Link);
         AuthData authData = firebase.getAuth();
         String uID = authData.getUid();
         return uID;
