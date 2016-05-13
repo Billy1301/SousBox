@@ -20,10 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.billy.sousbox.R;
-import com.example.billy.sousbox.api.GetRecipeObjects;
+import com.example.billy.sousbox.api.recipeModels.GetRecipeObjects;
 import com.example.billy.sousbox.api.RecipeAPI;
-import com.example.billy.sousbox.api.SpoonGetRecipe;
-import com.example.billy.sousbox.api.SpoonacularObjects;
+import com.example.billy.sousbox.api.recipeModels.SpoonGetRecipe;
 import com.example.billy.sousbox.firebaseModels.Recipes;
 import com.facebook.AccessToken;
 import com.firebase.client.AuthData;

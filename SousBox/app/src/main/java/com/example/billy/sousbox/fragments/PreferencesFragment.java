@@ -6,23 +6,16 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.preference.PreferenceManager;
-import android.widget.Toast;
 
 import com.example.billy.sousbox.R;
-import com.example.billy.sousbox.api.QueryFilters;
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -35,8 +28,6 @@ import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import java.util.Map;
-import timber.log.Timber;
 
 /**
  * Created by Billy on 5/2/16.
@@ -55,7 +46,6 @@ public class PreferencesFragment extends Fragment {
     private AuthData mAuthData;
     private Firebase.AuthStateListener mAuthStateListener;
     private SharedPreferences sharedPreferences;
-    private QueryFilters queryFilters;
     //endregion Private Variables
 
     public static CheckBox beefCheckBox, porkCheckBox, chickenCheckBox, vegetarianCheckBox, seafoodCheckbox, allTypeCheckBox;
@@ -91,12 +81,12 @@ public class PreferencesFragment extends Fragment {
         callbackManager = CallbackManager.Factory.create();
         initiViews(v);
         loginButton.setFragment(this);
-        queryFilters = new QueryFilters();
-        initiCheckboxClicks();
+        setCheckboxClicks();
         fireBase();
         facebookLogin();
         if(!isFacebookLoggedIn()){
-            logout();
+            firebaseLogout();
+            facebookUserName.setText("");
         }
 
         return v;
@@ -108,7 +98,7 @@ public class PreferencesFragment extends Fragment {
     private void fireBase(){
         mAuthProgressDialog = new ProgressDialog(getContext());
         mAuthProgressDialog.setTitle("Loading");
-        mAuthProgressDialog.setMessage("Authenticating with Facebook...");
+        mAuthProgressDialog.setMessage(getString(R.string.authen_with_facebook));
         mAuthProgressDialog.setCancelable(false);
         mAuthProgressDialog.show();
         mAuthStateListener = new Firebase.AuthStateListener() {
@@ -319,7 +309,7 @@ public class PreferencesFragment extends Fragment {
     /**
      * Adds each checkbox to see if they have been checked
      */
-    private void initiCheckboxClicks() {
+    private void setCheckboxClicks() {
         onCheckboxClicked(beefCheckBox);
         onCheckboxClicked(porkCheckBox);
         onCheckboxClicked(chickenCheckBox);
@@ -428,7 +418,7 @@ public class PreferencesFragment extends Fragment {
 
                 @Override
                 public void onCancel() {
-                    //logout();
+                    //firebaseLogout();
 
                 }
 
@@ -447,7 +437,7 @@ public class PreferencesFragment extends Fragment {
             mAuthProgressDialog.show();
             mFirebaseRef.authWithOAuthToken("facebook", token.getToken(), new AuthResultHandler("facebook"));
         } else {
-            // Logged out of Facebook and currently authenticated with Firebase using Facebook, so do a logout
+            // Logged out of Facebook and currently authenticated with Firebase using Facebook, so do a firebaseLogout
             if (this.mAuthData != null && this.mAuthData.getProvider().equals("facebook")) {
                 mFirebaseRef.unauth();
                 setAuthenticatedUser(null);
@@ -458,9 +448,9 @@ public class PreferencesFragment extends Fragment {
     /**
      * Unauthenticate from Firebase and from providers where necessary.
      */
-    private void logout() {
+    private void firebaseLogout() {
         if (this.mAuthData != null) {
-            /* logout of Firebase */
+            /* firebaseLogout of Firebase */
             mFirebaseRef.unauth();
             /* Logout of any of the Frameworks. This step is optional, but ensures the user is not logged into
              * Facebook/Google+ after logging out of Firebase. */
@@ -489,20 +479,17 @@ public class PreferencesFragment extends Fragment {
             }
             if (name != null) {
                 facebookUserName.setText("Chef " + name);
-                //Log.i("Pref Frag", "Logged in as " + name + " (" + authData.getProvider() + ")");
             }
         } else {
             facebookUserName.setText("");
             /* No authenticated user show all the login buttons */
-            loginButton.setVisibility(View.VISIBLE);
+//            loginButton.setVisibility(View.VISIBLE);
         }
         this.mAuthData = authData;
-        /* invalidate options menu to hide/show the logout button */
-
     }
 
     /**
-     * Show errors to users
+     * Show errors to users - not in use atm
      */
     private void showErrorDialog(String message) {
         new AlertDialog.Builder(getContext())

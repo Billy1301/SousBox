@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.billy.sousbox.R;
-import com.example.billy.sousbox.api.SpoonacularObjects;
+import com.example.billy.sousbox.api.recipeModels.SpoonacularObjects;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

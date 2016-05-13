@@ -14,30 +14,6 @@
         app:rotation_degrees="15.5"/>
 
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_gravity="center|right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="15dp">
-
-        <Button
-            android:background="@mipmap/dislike_icon"
-            android:id="@+id/left"
-            android:layout_margin="15dp"
-            android:layout_width="75dp"
-            android:layout_height="75dp" />
-
-        <Button
-            android:background="@mipmap/like_icon"
-            android:id="@+id/right"
-            android:layout_margin="15dp"
-            android:layout_width="75dp"
-            android:layout_height="75dp" />
-
-    </LinearLayout>
-
     <ProgressBar
         android:id="@+id/swipe_progress_bar_id"
         android:layout_width="match_parent"
@@ -45,6 +21,22 @@
         style="?android:attr/progressBarStyleLarge"
         android:visibility="visible"
         android:layout_gravity="center" />
+
+    <Button
+        android:background="@mipmap/like_icon"
+        android:id="@+id/right"
+        android:layout_margin="15dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="right|center_vertical" />
+
+    <Button
+        android:background="@mipmap/dislike_icon"
+        android:id="@+id/left"
+        android:layout_margin="15dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_gravity="left|center_vertical" />
 
 
 </FrameLayout>

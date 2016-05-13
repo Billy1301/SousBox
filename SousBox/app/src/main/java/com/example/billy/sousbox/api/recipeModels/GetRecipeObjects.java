@@ -1,4 +1,6 @@
-package com.example.billy.sousbox.api;
+package com.example.billy.sousbox.api.recipeModels;
+
+import com.example.billy.sousbox.api.recipeModels.SpoonGetRecipe;
 
 /**
  * Created by Billy on 5/3/16.

@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<RelativeLayout
-    android:padding="16dp"
+<LinearLayout
+    android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginBottom="?attr/actionBarSize">
+    android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/ingredients_progress_bar_id"
@@ -14,20 +13,12 @@
         style="?android:attr/progressBarStyleLarge"
         android:visibility="visible"/>
 
-
-    <LinearLayout
-        android:id="@+id/ingredients_linearImage"
-        android:layout_below="@+id/ingredients_progress_bar_id"
-        android:orientation="vertical"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
         <ImageView
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
             android:id="@+id/ingredients_imageView_id"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
             />
 
         <TextView
@@ -40,14 +31,10 @@
             android:layout_height="wrap_content"
             />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_marginLeft="16dp"
-        android:layout_toEndOf="@+id/ingredients_linearImage"
+    <FrameLayout
+        android:padding="16dp"
         android:orientation="horizontal"
-        android:id="@+id/ingredients_landscape_layout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
@@ -56,8 +43,7 @@
             android:id="@+id/instruction_button_id"
             android:text="@string/instructions"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_height="wrap_content" />
 
         <Button
             android:textSize="20sp"
@@ -66,20 +52,13 @@
             android:text="servings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:layout_weight="1"/>
+            android:layout_gravity="right|center_vertical" />
+    </FrameLayout>
 
-    </LinearLayout>
-
-    <ListView
-        android:layout_marginLeft="16dp"
-        android:layout_toEndOf="@+id/ingredients_linearImage"
-        android:layout_below="@+id/ingredients_landscape_layout"
-        android:id="@+id/ingredients_listView_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        >
-
-    </ListView>
-
-</RelativeLayout>
+        <ListView
+            android:id="@+id/ingredients_listView_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="?attr/actionBarSize">
+        </ListView>
+</LinearLayout>
