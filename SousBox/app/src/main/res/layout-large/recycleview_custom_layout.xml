@@ -9,15 +9,15 @@
 
     <ImageView
         android:id="@+id/saved_recipe_imageOne_id"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="175dp"
+        android:layout_height="175dp"
         />
 
     <TextView
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
         android:text="@string/recipeTitle"
         android:layout_gravity="center"
-        android:textSize="35sp"
+        android:textSize="30sp"
         android:textStyle="bold"
         android:id="@+id/saved_recipe_imageOne_title_id"
         android:layout_width="match_parent"

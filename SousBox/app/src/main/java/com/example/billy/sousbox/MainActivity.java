@@ -2,18 +2,13 @@ package com.example.billy.sousbox;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -26,9 +21,6 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.appevents.AppEventsLogger;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
         bottomNavi();
 
         if(savedInstanceState == null){
-            initiFragment();
+            setupFragmentOnFirstLoad();
         }
     }
 
@@ -72,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
      * start the fragment when app start
      */
 
-    private void initiFragment(){
+    private void setupFragmentOnFirstLoad(){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
@@ -86,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            Toast.makeText(MainActivity.this, "No network detected", Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, R.string.no_network_detected, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -114,6 +106,37 @@ public class MainActivity extends AppCompatActivity {
      * bottom Navi SDK  - each tab will change to the fragment of choose
      */
     private void bottomNavi(){
+        setupBottomNavi();
+        // Set listener
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position, boolean wasSelected) {
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.addToBackStack(null);
+                if(position ==0) {
+                    fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
+                }
+                if(position ==1) {
+
+                    fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
+                }
+                if(position ==2) {
+                    fragmentTransaction.replace(R.id.fragment_container_id, preferencesFragment);
+                }
+                if(position ==3) {
+                    if(isFacebookLoggedIn()) {
+                        fragmentTransaction.replace(R.id.fragment_container_id, savedRecipeFrag);
+                    } else {
+                        Toast.makeText(MainActivity.this, R.string.login_to_use, Toast.LENGTH_SHORT).show();
+                    }
+                }
+                fragmentTransaction.commit();
+            }
+        });
+    }
+
+
+    private void setupBottomNavi(){
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_random, R.color.colorPrimary);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_menu_gallery, R.color.colorPrimary);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.ic_menu_manage, R.color.colorPrimaryDark);
@@ -126,35 +149,6 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setForceTint(true);
         bottomNavigation.setForceTitlesDisplay(true);
         bottomNavigation.setColored(true);
-
-        // Set listener
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(int position, boolean wasSelected) {
-                fragmentTransaction = fragmentManager.beginTransaction();
-                if(position ==0) {
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
-                }
-                if(position ==1) {
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
-                }
-                if(position ==2) {
-                    fragmentTransaction.addToBackStack(null);
-                    fragmentTransaction.replace(R.id.fragment_container_id, preferencesFragment);
-                }
-                if(position ==3) {
-                    if(isFacebookLoggedIn()) {
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.replace(R.id.fragment_container_id, savedRecipeFrag);
-                    } else {
-                        Toast.makeText(MainActivity.this, R.string.login_to_use, Toast.LENGTH_SHORT).show();
-                    }
-                }
-                fragmentTransaction.commit();
-            }
-        });
     }
 
     /**

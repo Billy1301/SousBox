@@ -1,13 +1,13 @@
 
-Sous Box v1
-   
-
-This is an recipe app with a swipe feature to randomly show any single recipe for the user. The app have an option to display recipes in a list view. The random recipe will use the swiping feature for any user that want a suggestion on what to make for lunch or dinner. You will be able to filter recipe preference.
-
-----------------------
+#Sous Box v1
+A Chef Helper App
 
 <html>
 <body>
+This is an recipe app with a swipe feature that randomly show a single recipe for the user to like or dislike. The app have an option to display a list of recipes for the user who doesn't want single view. The random recipe use the swiping feature for the user that want a suggestion on what to make for lunch and/or dinner. The user will be able to filter recipe to their type of food search. <br>
+
+----------------------
+
 <p>Features:
 <br>Pick your food preferences
 <br>Login with Facebook to view saved recipes on multiply device
@@ -38,7 +38,20 @@ A Tablet view: <br>
 
 --------------------
 
-<p>Known Bugs:
+
+<p><br>Sous Box project stages: Click on links to review
+<br>
+<br><a href="https://docs.google.com/presentation/d/1ayZjlxHYbrKt5dIH-Dw30SM1ckDEAWvKtzT3d2OUjSk/edit?usp=sharing">Competitor researching </a>
+
+<br>
+<br><a href="https://trello.com/b/bjRRTK4C/sousbox">Trello stage tracking</a>
+
+<br>
+<br><a href="https://docs.google.com/presentation/d/17146M4sX-xz37g7TQzxHtGy2j6Oc0xyAs6khqwGMrs8/edit?usp=sharing">Sous Box wireframing & user research stage</a>
+
+<br>
+<br>
+Known Bugs:
 <br>Switching between portrait and landscape doesn't hold current listing
 
 <br>
@@ -48,6 +61,9 @@ A Tablet view: <br>
 <br> When a user dislike a recipe on the Swiping page, it will not show up for a few days
 
 </p>
+
+
+
 
 </body>
 </html>

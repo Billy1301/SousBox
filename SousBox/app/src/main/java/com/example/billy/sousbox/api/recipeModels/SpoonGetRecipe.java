@@ -1,4 +1,4 @@
-package com.example.billy.sousbox.api;
+package com.example.billy.sousbox.api.recipeModels;
 
 /**
  * Created by Billy on 5/3/16.

@@ -59,7 +59,6 @@ public class SavedRecipeFragment extends Fragment {
         mAdapter = new FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder>(Recipes.class, R.layout.recycleview_custom_layout, FirebaseRecipeVIewHolder.class, firebaseChild) {
             @Override
             public void populateViewHolder(FirebaseRecipeVIewHolder holder, final Recipes recipes, final int position) {
-
                 holder.titleName.setText(recipes.getTitle());
 
                 String imageURI = recipes.getImage();
@@ -71,8 +70,6 @@ public class SavedRecipeFragment extends Fragment {
                         .resize(300, 300)
                         .centerCrop()
                         .into(holder.recipeImage);
-                progress.setVisibility(View.GONE);
-
             }
         };
         recyclerView.setAdapter(mAdapter);
@@ -85,7 +82,7 @@ public class SavedRecipeFragment extends Fragment {
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            Toast.makeText(getActivity(), "No network detected", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.no_network), Toast.LENGTH_LONG).show();
         }
     }
 

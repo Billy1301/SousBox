@@ -20,12 +20,11 @@ import android.widget.Toast;
 import com.example.billy.sousbox.R;
 import com.example.billy.sousbox.adapters.RecycleViewAdapter;
 import com.example.billy.sousbox.api.RecipeAPI;
-import com.example.billy.sousbox.api.SpoonacularObjects;
-import com.example.billy.sousbox.api.SpoonacularResults;
+import com.example.billy.sousbox.api.recipeModels.SpoonacularObjects;
+import com.example.billy.sousbox.api.recipeModels.SpoonacularResults;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -87,7 +86,7 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
         ConnectivityManager connMgr = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo == null) {
-            Toast.makeText(getActivity(), "No network detected", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getString(R.string.no_network), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -107,7 +106,6 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
                 String image = recipeLists.get(position).getImage();
                 recipeId.putInt(RECIPE_ID_KEY, recipe);
                 recipeId.putString(IMAGE_KEY, image);
-
                 Fragment ingredients = new IngredientsFragment();
                 ingredients.setArguments(recipeId);
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();

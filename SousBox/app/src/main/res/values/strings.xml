@@ -19,4 +19,5 @@
     <string name="login_to_use">Please login to use this feature</string>
     <string name="no_network">No network detected</string>
     <string name="login_to_save">Please login to save recipe</string>
+    <string name="authen_with_facebook">Authenticating with Facebook...</string>
 </resources>
