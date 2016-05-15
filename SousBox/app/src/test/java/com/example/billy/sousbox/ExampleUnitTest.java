@@ -1,4 +1,4 @@
-package com.example.billy.sousbox;
+package com.billy.billy.sousbox;
 
 import org.junit.Test;
 
