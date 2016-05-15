@@ -1,6 +1,7 @@
 package com.billy.sousbox.sousbox.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -10,7 +11,11 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -82,6 +87,7 @@ public class SwipeItemFragment extends Fragment {
         setWhereToSave();
         setupFlingContainer();
         initiFlingListener();
+        setHasOptionsMenu(true);
         return v;
     }
 
@@ -284,5 +290,41 @@ public class SwipeItemFragment extends Fragment {
         AuthData authData = firebase.getAuth();
         String uID = authData.getUid();
         return uID;
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.info_menu, menu);
+    }
+
+    /**
+     * information on how to remove saved recipe
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.info_menu_id) {
+            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(getContext());
+            dlgAlert.setMessage("Swipe left to skip, Swipe right to save. Click on image for more info");
+            dlgAlert.setTitle("Sous Box");
+            dlgAlert.setPositiveButton("OK", null);
+            dlgAlert.setCancelable(true);
+            dlgAlert.create().show();
+
+            dlgAlert.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

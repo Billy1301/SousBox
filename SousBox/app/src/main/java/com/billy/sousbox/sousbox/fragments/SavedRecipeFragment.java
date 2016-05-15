@@ -1,16 +1,22 @@
 package com.billy.sousbox.sousbox.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +55,8 @@ public class SavedRecipeFragment extends Fragment {
         checkNetwork();
         fireBaseAdapter();
         firebaseRecycerItemClicker();
+        setHasOptionsMenu(true);
+
         return v;
     }
 
@@ -199,4 +207,40 @@ public class SavedRecipeFragment extends Fragment {
         return uID;
     }
 
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.info_menu, menu);
+    }
+
+    /**
+     * information on how to remove saved recipe
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.info_menu_id) {
+            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(getContext());
+            dlgAlert.setMessage("To delete, hold down on recipe for a few seconds");
+            dlgAlert.setTitle("Sous Box");
+            dlgAlert.setPositiveButton("OK", null);
+            dlgAlert.setCancelable(true);
+            dlgAlert.create().show();
+
+            dlgAlert.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

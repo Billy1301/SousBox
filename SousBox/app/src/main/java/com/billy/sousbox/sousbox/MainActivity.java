@@ -69,7 +69,11 @@ public class MainActivity extends AppCompatActivity {
     private void setupFragmentOnFirstLoad(){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
+        if(isFacebookLoggedIn()){
+            fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
+        } else {
         fragmentTransaction.replace(R.id.fragment_container_id, preferencesFragment);
+        }
         fragmentTransaction.commit();
     }
 
@@ -151,7 +155,11 @@ public class MainActivity extends AppCompatActivity {
         bottomNavigation.setForceTint(true);
         bottomNavigation.setForceTitlesDisplay(true);
         bottomNavigation.setColored(true);
-        bottomNavigation.setCurrentItem(2);
+        if(!isFacebookLoggedIn()) {
+            bottomNavigation.setCurrentItem(2);
+        } else {
+            bottomNavigation.setCurrentItem(0);
+        }
     }
 
     /**
@@ -161,4 +169,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isFacebookLoggedIn(){
         return AccessToken.getCurrentAccessToken() !=null;
     }
+
+
+
 }

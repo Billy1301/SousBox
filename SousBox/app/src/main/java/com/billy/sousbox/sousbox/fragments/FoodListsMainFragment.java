@@ -1,6 +1,7 @@
 package com.billy.sousbox.sousbox.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,9 +10,13 @@ import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -135,10 +140,11 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
                 }
                 Collections.addAll(recipeLists, spoonacularResults.getResults());
                 if (recyclerView != null) {
-                    long seed = System.nanoTime();
-                    Collections.shuffle(recipeLists, new Random(seed));
+//                    long seed = System.nanoTime();
+//                    Collections.shuffle(recipeLists, new Random(seed));
                     recyclerView.setAdapter(recycleAdapter);
                     recycleAdapter.notifyItemRangeInserted(position, spoonacularResults.getResults().length);
+                    recycleAdapter.notifyDataSetChanged();
                     progress.setVisibility(View.GONE);
                 }
             }
@@ -160,6 +166,7 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
         offset += 50;
         retrofitRecipe();
     }
+
 
 
 }
