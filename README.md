@@ -18,16 +18,23 @@ This is an recipe app with a swipe feature that randomly show a single recipe fo
 </p>
 
 <br>
+
+<img src="http://i.imgur.com/zS0EhJt.png" width = "50" height = "50">
+
 Mobile version views:<br>
-<img src="http://i.imgur.com/4idAGUT.png" width = "150" height = "250">
-<img src="http://imgur.com/i8TdUK3.png" width = "150" height = "250">
-<img src="http://i.imgur.com/OAMDxfj.png" width = "150" height = "250">
+<img src="http://i.imgur.com/2DDAcKn.png" width = "150" height = "250">
+<img src="http://i.imgur.com/oeOCgiA.png" width = "150" height = "250">
+<img src="http://i.imgur.com/BxVExjw.png" width = "150" height = "250">
 <br>
-<img src="http://i.imgur.com/sHrZYnn.png" width = "250" height = "150">
+<img src="http://i.imgur.com/2xCdN23.png" width = "250" height = "150">
 
 <br>
-A Tablet view: <br>
-<img src="http://i.imgur.com/aYXXai0.png" width = "250" height = "150">
+Tablet view: <br>
+<img src="http://i.imgur.com/DgRTBz9.png" width = "150" height = "250">
+<img src="http://i.imgur.com/0usWFBn.png" width = "250" height = "150">
+
+
+
 
 
 <p>Created by: Bill Ly</p>
@@ -39,7 +46,10 @@ A Tablet view: <br>
 --------------------
 
 
-<p><br>Sous Box project stages: Click on links to review
+<p><br>Sous Box project stages: click below links to review
+
+<br><a href="https://docs.google.com/presentation/d/1d0dcEwVKZtWBgvWDpobEzUZR3IcQhtQZkxdBKdjRh-4/edit?usp=sharing">Project Pitch </a>
+
 <br>
 <br><a href="https://docs.google.com/presentation/d/1ayZjlxHYbrKt5dIH-Dw30SM1ckDEAWvKtzT3d2OUjSk/edit?usp=sharing">Competitor researching </a>
 
@@ -59,6 +69,7 @@ Known Bugs:
 <br> More filter options
 <br> When a user choose not to login, able to save 10 recipes within per device to view later
 <br> When a user dislike a recipe on the Swiping page, it will not show up for a few days
+<br> Maybe search option
 
 </p>
 
