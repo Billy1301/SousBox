@@ -18,8 +18,7 @@ This is an recipe app with a swipe feature that randomly show a single recipe fo
 </p>
 
 <br>
-
-<img src="http://i.imgur.com/zS0EhJt.png" width = "50" height = "50">
+<img src="http://i.imgur.com/zS0EhJt.png" width = "75" height = "75">
 
 Mobile version views:<br>
 <img src="http://i.imgur.com/2DDAcKn.png" width = "150" height = "250">
@@ -35,12 +34,9 @@ Tablet view: <br>
 
 
 
-
-
 <p>Created by: Bill Ly</p>
 
 
-<br>
 <p>Please note: To keep the recipes free to the public, all recipes instruction and serving calculation will be directed to the owner site within the app.</p>
 
 --------------------
@@ -50,19 +46,18 @@ Tablet view: <br>
 
 <br><a href="https://docs.google.com/presentation/d/1d0dcEwVKZtWBgvWDpobEzUZR3IcQhtQZkxdBKdjRh-4/edit?usp=sharing">Project Pitch </a>
 
-<br>
 <br><a href="https://docs.google.com/presentation/d/1ayZjlxHYbrKt5dIH-Dw30SM1ckDEAWvKtzT3d2OUjSk/edit?usp=sharing">Competitor researching </a>
 
-<br>
 <br><a href="https://trello.com/b/bjRRTK4C/sousbox">Trello stage tracking</a>
 
-<br>
 <br><a href="https://docs.google.com/presentation/d/17146M4sX-xz37g7TQzxHtGy2j6Oc0xyAs6khqwGMrs8/edit?usp=sharing">Sous Box wireframing & user research stage</a>
 
 <br>
 <br>
 Known Bugs:
 <br>Switching between portrait and landscape doesn't hold current listing
+<br>Recipe can saved again and again
+<br>Some recipes might display a few times 
 
 <br>
 <br>Future version: 
@@ -72,9 +67,5 @@ Known Bugs:
 <br> Maybe search option
 
 </p>
-
-
-
-
 </body>
 </html>
