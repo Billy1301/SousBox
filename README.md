@@ -4,7 +4,7 @@ A Chef Helper App
 
 <html>
 <body>
-This is an recipe app with a swipe feature that randomly show a single recipe for the user to like or dislike. The app have an option to display a list of recipes for the user who doesn't want single view. The random recipe use the swiping feature for the user that want a suggestion on what to make for lunch and/or dinner. The user will be able to filter recipe to their type of food search. <br>
+This is a recipe app with a swipe feature that randomly show a single recipe for the user to like or dislike. The app have a option to display a list of recipes for the user who doesn't want single view. The random recipe use the swiping feature for the user that want a suggestion on what to make for lunch and/or dinner. The user will be able to filter recipe to their type of food search. <br>
 
 ----------------------
 
