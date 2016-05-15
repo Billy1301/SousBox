@@ -225,8 +225,8 @@ public class SavedRecipeFragment extends Fragment {
 
         if (id == R.id.info_menu_id) {
             AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(getContext());
-            dlgAlert.setMessage("To delete, hold down on recipe for a few seconds");
-            dlgAlert.setTitle("Sous Box");
+            dlgAlert.setMessage(getString(R.string.saved_frag_info_string));
+            dlgAlert.setTitle(getString(R.string.app_name));
             dlgAlert.setPositiveButton("OK", null);
             dlgAlert.setCancelable(true);
             dlgAlert.create().show();

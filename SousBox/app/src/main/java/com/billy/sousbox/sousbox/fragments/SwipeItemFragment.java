@@ -309,8 +309,8 @@ public class SwipeItemFragment extends Fragment {
 
         if (id == R.id.info_menu_id) {
             AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(getContext());
-            dlgAlert.setMessage("Swipe left to skip, Swipe right to save. Click on image for more info");
-            dlgAlert.setTitle("Sous Box");
+            dlgAlert.setMessage(getString(R.string.swipe_info_string));
+            dlgAlert.setTitle(getString(R.string.app_name));
             dlgAlert.setPositiveButton("OK", null);
             dlgAlert.setCancelable(true);
             dlgAlert.create().show();
