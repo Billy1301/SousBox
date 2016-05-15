@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -49,6 +51,7 @@ public class IngredientsFragment extends Fragment {
     private int id;
     private String image;
     private ListView ingredientsLV;
+    private RecyclerView recyclerView;
     private TextView title;
     private ImageView recipeImage;
     private Button instructionButton;
@@ -59,6 +62,8 @@ public class IngredientsFragment extends Fragment {
     private Firebase firebaseRef;
     private Firebase firebaseRecipe;
     //endregion Private Variables
+
+    private ArrayAdapter mAdapter;
 
     public final static String URL_KEY = "URL";
 
@@ -85,6 +90,13 @@ public class IngredientsFragment extends Fragment {
         instructionButton = (Button) v.findViewById(R.id.instruction_button_id);
         progress = (ProgressBar) v.findViewById(R.id.ingredients_progress_bar_id);
         servingsButton = (Button)v.findViewById(R.id.ingredients_serving_button_id);
+        //mAdapter = new ArrayAdapter()
+
+       // recyclerView = (RecyclerView)v.findViewById(R.id.ingredients_recyclerView_id);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        //recyclerView.setAdapter(mAdapter);
+
 
     }
 

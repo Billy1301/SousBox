@@ -25,4 +25,5 @@
     <string name="sharing">Sharing</string>
     <string name="saved_frag_info_string">To delete, hold down on recipe for a few seconds</string>
     <string name="swipe_info_string">Swipe left to skip, Swipe right to save. Click on image for more info</string>
+    <string name="collapsing_toolbar_image">collapsing tool bar image</string>
 </resources>
