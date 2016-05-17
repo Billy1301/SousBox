@@ -5,6 +5,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     >
@@ -18,17 +19,18 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="250dp"
             android:background="@android:color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
+
             >
 
             <ImageView
                 android:id="@+id/ingredients_imageView_id"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                app:layout_collapseMode="pin"
+                app:layout_collapseMode="parallax"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 android:contentDescription="@string/collapsing_toolbar_image"
@@ -43,7 +45,9 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true">
+        android:layout_marginBottom="?attr/actionBarSize"
+        android:fillViewport="true"
+        >
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -92,8 +96,7 @@
             <ListView
                 android:id="@+id/ingredients_listView_id"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 >
             </ListView>
 
