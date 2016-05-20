@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.billy.sousbox.sousbox.adapters.IngredientsRecyclerAdapter;
 import com.billy.sousbox.sousbox.api.recipeModels.SpoonGetRecipe;
 import com.billy.sousbox.sousbox.firebaseModels.Recipes;
 import com.billy.billy.sousbox.R;
@@ -32,6 +33,8 @@ import com.firebase.client.Firebase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -61,10 +64,11 @@ public class IngredientsFragment extends Fragment {
     private Bundle instructionBundle;
     private Firebase firebaseRef;
     private Firebase firebaseRecipe;
+    private IngredientsRecyclerAdapter ingredAdapater;
     //endregion Private Variables
 
-    private ArrayAdapter mAdapter;
 
+    ArrayList<SpoonGetRecipe> recipeIngredientsList;
     public final static String URL_KEY = "URL";
 
     @Nullable
@@ -86,17 +90,11 @@ public class IngredientsFragment extends Fragment {
     private void setViews(View v){
         recipeImage = (ImageView) v.findViewById(R.id.ingredients_imageView_id);
         title = (TextView) v.findViewById(R.id.ingredients_titleView_id);
-        ingredientsLV = (ListView)v.findViewById(R.id.ingredients_listView_id);
+//        ingredientsLV = (ListView)v.findViewById(R.id.ingredients_listView_id);
         instructionButton = (Button) v.findViewById(R.id.instruction_button_id);
         progress = (ProgressBar) v.findViewById(R.id.ingredients_progress_bar_id);
         servingsButton = (Button)v.findViewById(R.id.ingredients_serving_button_id);
-        //mAdapter = new ArrayAdapter()
-
-       // recyclerView = (RecyclerView)v.findViewById(R.id.ingredients_recyclerView_id);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        //recyclerView.setAdapter(mAdapter);
-
+        recyclerView = (RecyclerView)v.findViewById(R.id.ingredients_recyclerView_id);
 
     }
 
@@ -153,7 +151,7 @@ public class IngredientsFragment extends Fragment {
      */
     private void retrofitRecipeID() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
+                .baseUrl(SwipeItemFragment.SPOON_API_LINK)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -181,13 +179,20 @@ public class IngredientsFragment extends Fragment {
                         .centerCrop()
                         .into(recipeImage);
 
-                ingredientLists = new ArrayList<>();
-                SpoonGetRecipe[] recipe = getRecipeObjects.getExtendedIngredients();
-                for (int i = 0; i < recipe.length; i++) {
-                    ingredientLists.add(recipe[i].getOriginalString());
-                }
-                adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, ingredientLists);
-                ingredientsLV.setAdapter(adapter);
+//                ingredientLists = new ArrayList<>();
+//                SpoonGetRecipe[] recipe = getRecipeObjects.getExtendedIngredients();
+//                for (int i = 0; i < recipe.length; i++) {
+//                    ingredientLists.add(recipe[i].getOriginalString());
+//                }
+
+                recipeIngredientsList = new ArrayList<SpoonGetRecipe>();
+                Collections.addAll(recipeIngredientsList, getRecipeObjects.getExtendedIngredients());
+                ingredAdapater = new IngredientsRecyclerAdapter(recipeIngredientsList);
+
+//                adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, ingredientLists);
+//                ingredientsLV.setAdapter(adapter);
+                recyclerView.setAdapter(ingredAdapater);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 progress.setVisibility(View.GONE);
             }
 

@@ -70,6 +70,7 @@ public class SwipeItemFragment extends Fragment {
     //endregion Private Variables
 
     public static final String Firebase_Link = "https://sous-box.firebaseio.com/";
+    public static final String SPOON_API_LINK = "https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/";
 
 
     @Nullable
@@ -244,7 +245,7 @@ public class SwipeItemFragment extends Fragment {
      */
     private void swipeRecipePulling() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
+                .baseUrl(SPOON_API_LINK)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.billy.sousbox.sousbox.firebaseModels.Recipes;
 import com.billy.billy.sousbox.R;
 import com.billy.sousbox.sousbox.adapters.FirebaseRecipeVIewHolder;
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -74,10 +75,20 @@ public class SavedRecipeFragment extends Fragment {
                 if (imageURI.isEmpty()) {
                     imageURI = "R.drawable.blank_white.png";
                 }
-                Picasso.with(getContext())
+//                Picasso.with(getContext())
+//                        .load("https://webknox.com/recipeImages/"+ imageURI)
+//                        .resize(300, 300)
+//                        .centerCrop()
+//                        .into(holder.recipeImage);
+//
+
+                Glide
+                        .with(getContext())
                         .load("https://webknox.com/recipeImages/"+ imageURI)
-                        .resize(300, 300)
                         .centerCrop()
+                        .placeholder(R.drawable.blank_white)
+//                        .crossFade()
+                        .override(125, 125)
                         .into(holder.recipeImage);
             }
         };

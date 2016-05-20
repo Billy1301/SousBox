@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.billy.sousbox.sousbox.api.recipeModels.SpoonacularObjects;
 import com.billy.billy.sousbox.R;
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -67,11 +68,21 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         if (imageURI.isEmpty()) {
             imageURI = "R.drawable.blank_white.png";
         }
-        Picasso.with(context)
+
+        Glide
+                .with(context)
                 .load("https://webknox.com/recipeImages/"+ imageURI)
-                .resize(400, 400)
                 .centerCrop()
+                .placeholder(R.drawable.blank_white)
+                .crossFade()
+                .override(150,150)
                 .into(holder.recipeImageView);
+
+//        Picasso.with(context)
+//                .load("https://webknox.com/recipeImages/"+ imageURI)
+//                .resize(400, 400)
+//                .centerCrop()
+//                .into(holder.recipeImageView);
 
         if (position == data.size()-2){
             recipeScrollListener.loadNewRecipes(position);
@@ -94,6 +105,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     public void changeDataSet(SpoonacularObjects[] data){
         //this.data = data;
-        notifyDataSetChanged();
+        //notifyDataSetChanged();
     }
 }

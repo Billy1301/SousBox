@@ -5,7 +5,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="?attr/actionBarSize"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true"
     >
@@ -23,7 +22,6 @@
             android:background="@android:color/white"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:fitsSystemWindows="true"
-
             >
 
             <ImageView
@@ -34,7 +32,6 @@
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 android:contentDescription="@string/collapsing_toolbar_image"
-
                 />
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -45,13 +42,14 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="?attr/actionBarSize"
-        android:fillViewport="true"
         >
+        <!--android:fillViewport="true"-->
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            >
 
             <TextView
                 android:layout_marginTop="8dp"
@@ -93,26 +91,25 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:visibility="visible"/>
 
-            <ListView
-                android:id="@+id/ingredients_listView_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
-            </ListView>
+            <!--<ListView-->
+                <!--android:id="@+id/ingredients_listView_id"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginBottom="?attr/actionBarSize"-->
+                <!-->-->
+            <!--</ListView>-->
 
-           <!--<android.support.v7.widget.RecyclerView-->
-               <!--android:id="@+id/ingredients_recyclerView_id"-->
-               <!--android:layout_width="match_parent"-->
-               <!--android:layout_height="wrap_content">-->
+           <android.support.v7.widget.RecyclerView
+               android:layout_marginTop="8dp"
+               android:id="@+id/ingredients_recyclerView_id"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_marginBottom="?attr/actionBarSize">
 
-           <!--</android.support.v7.widget.RecyclerView>-->
+           </android.support.v7.widget.RecyclerView>
 
         </LinearLayout>
 
-
-
-
     </android.support.v4.widget.NestedScrollView>
-
 
 </android.support.design.widget.CoordinatorLayout>

@@ -56,6 +56,8 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
     public final static String IMAGE_KEY = "image";
     int position;
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -125,7 +127,7 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
 
     private void retrofitRecipe() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
+                .baseUrl(SwipeItemFragment.SPOON_API_LINK)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -144,7 +146,7 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
 //                    Collections.shuffle(recipeLists, new Random(seed));
                     recyclerView.setAdapter(recycleAdapter);
                     recycleAdapter.notifyItemRangeInserted(position, spoonacularResults.getResults().length);
-                    recycleAdapter.notifyDataSetChanged();
+//                    recycleAdapter.notifyDataSetChanged();
                     progress.setVisibility(View.GONE);
                 }
             }
