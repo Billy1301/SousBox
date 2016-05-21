@@ -48,12 +48,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class IngredientsFragment extends Fragment {
 
     //region Private Variables
-    private ArrayList<String> ingredientLists;
-    private ArrayAdapter adapter;
+    private ArrayList<SpoonGetRecipe> recipeIngredientsList;
     private RecipeAPI searchAPI;
     private int id;
     private String image;
-    private ListView ingredientsLV;
     private RecyclerView recyclerView;
     private TextView title;
     private ImageView recipeImage;
@@ -68,7 +66,6 @@ public class IngredientsFragment extends Fragment {
     //endregion Private Variables
 
 
-    ArrayList<SpoonGetRecipe> recipeIngredientsList;
     public final static String URL_KEY = "URL";
 
     @Nullable
@@ -90,7 +87,6 @@ public class IngredientsFragment extends Fragment {
     private void setViews(View v){
         recipeImage = (ImageView) v.findViewById(R.id.ingredients_imageView_id);
         title = (TextView) v.findViewById(R.id.ingredients_titleView_id);
-//        ingredientsLV = (ListView)v.findViewById(R.id.ingredients_listView_id);
         instructionButton = (Button) v.findViewById(R.id.instruction_button_id);
         progress = (ProgressBar) v.findViewById(R.id.ingredients_progress_bar_id);
         servingsButton = (Button)v.findViewById(R.id.ingredients_serving_button_id);
@@ -173,6 +169,7 @@ public class IngredientsFragment extends Fragment {
                 if (imageURI.isEmpty()) {
                     imageURI = "R.drawable.blank_white.png";
                 }
+
                 Picasso.with(getContext())
                         .load("https://webknox.com/recipeImages/" + imageURI)
                         .resize(400, 400)
@@ -188,7 +185,6 @@ public class IngredientsFragment extends Fragment {
                 recipeIngredientsList = new ArrayList<SpoonGetRecipe>();
                 Collections.addAll(recipeIngredientsList, getRecipeObjects.getExtendedIngredients());
                 ingredAdapater = new IngredientsRecyclerAdapter(recipeIngredientsList);
-
 //                adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, ingredientLists);
 //                ingredientsLV.setAdapter(adapter);
                 recyclerView.setAdapter(ingredAdapater);

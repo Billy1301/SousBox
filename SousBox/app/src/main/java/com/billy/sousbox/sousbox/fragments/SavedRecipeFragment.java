@@ -81,7 +81,6 @@ public class SavedRecipeFragment extends Fragment {
 //                        .centerCrop()
 //                        .into(holder.recipeImage);
 //
-
                 Glide
                         .with(getContext())
                         .load("https://webknox.com/recipeImages/"+ imageURI)
