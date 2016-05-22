@@ -6,5 +6,5 @@
 .DS_Store
 /build
 /captures
-/app/src/main/java/com/example/billy/sousbox/Keys
-/app/src/main/java/com/example/billy/sousbox/Keys/Keys.java
+/app/src/main/java/com/billy/sousbox/sousbox/Keys
+/app/src/main/java/com/billy/sousbox/sousbox/Keys/Keys.java
