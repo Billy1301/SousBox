@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.billy.sousbox.sousbox.adapters.IngredientsRecyclerAdapter;
 import com.billy.sousbox.sousbox.api.recipeModels.SpoonGetRecipe;
 import com.billy.sousbox.sousbox.firebaseModels.Recipes;
 import com.billy.billy.sousbox.R;
@@ -30,6 +33,8 @@ import com.firebase.client.Firebase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,12 +48,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class IngredientsFragment extends Fragment {
 
     //region Private Variables
-    private ArrayList<String> ingredientLists;
-    private ArrayAdapter adapter;
+    private ArrayList<SpoonGetRecipe> recipeIngredientsList;
     private RecipeAPI searchAPI;
     private int id;
     private String image;
-    private ListView ingredientsLV;
+    private RecyclerView recyclerView;
     private TextView title;
     private ImageView recipeImage;
     private Button instructionButton;
@@ -58,7 +62,9 @@ public class IngredientsFragment extends Fragment {
     private Bundle instructionBundle;
     private Firebase firebaseRef;
     private Firebase firebaseRecipe;
+    private IngredientsRecyclerAdapter ingredAdapater;
     //endregion Private Variables
+
 
     public final static String URL_KEY = "URL";
 
@@ -81,10 +87,10 @@ public class IngredientsFragment extends Fragment {
     private void setViews(View v){
         recipeImage = (ImageView) v.findViewById(R.id.ingredients_imageView_id);
         title = (TextView) v.findViewById(R.id.ingredients_titleView_id);
-        ingredientsLV = (ListView)v.findViewById(R.id.ingredients_listView_id);
         instructionButton = (Button) v.findViewById(R.id.instruction_button_id);
         progress = (ProgressBar) v.findViewById(R.id.ingredients_progress_bar_id);
         servingsButton = (Button)v.findViewById(R.id.ingredients_serving_button_id);
+        recyclerView = (RecyclerView)v.findViewById(R.id.ingredients_recyclerView_id);
 
     }
 
@@ -141,7 +147,7 @@ public class IngredientsFragment extends Fragment {
      */
     private void retrofitRecipeID() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/")
+                .baseUrl(SwipeItemFragment.SPOON_API_LINK)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
@@ -163,19 +169,26 @@ public class IngredientsFragment extends Fragment {
                 if (imageURI.isEmpty()) {
                     imageURI = "R.drawable.blank_white.png";
                 }
+
                 Picasso.with(getContext())
                         .load("https://webknox.com/recipeImages/" + imageURI)
                         .resize(400, 400)
                         .centerCrop()
                         .into(recipeImage);
 
-                ingredientLists = new ArrayList<>();
-                SpoonGetRecipe[] recipe = getRecipeObjects.getExtendedIngredients();
-                for (int i = 0; i < recipe.length; i++) {
-                    ingredientLists.add(recipe[i].getOriginalString());
-                }
-                adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, ingredientLists);
-                ingredientsLV.setAdapter(adapter);
+//                ingredientLists = new ArrayList<>();
+//                SpoonGetRecipe[] recipe = getRecipeObjects.getExtendedIngredients();
+//                for (int i = 0; i < recipe.length; i++) {
+//                    ingredientLists.add(recipe[i].getOriginalString());
+//                }
+
+                recipeIngredientsList = new ArrayList<SpoonGetRecipe>();
+                Collections.addAll(recipeIngredientsList, getRecipeObjects.getExtendedIngredients());
+                ingredAdapater = new IngredientsRecyclerAdapter(recipeIngredientsList);
+//                adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, ingredientLists);
+//                ingredientsLV.setAdapter(adapter);
+                recyclerView.setAdapter(ingredAdapater);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
                 progress.setVisibility(View.GONE);
             }
 

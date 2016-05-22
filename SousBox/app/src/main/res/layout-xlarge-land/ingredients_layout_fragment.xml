@@ -70,14 +70,18 @@
 
     </LinearLayout>
 
-    <ListView
-        android:layout_marginLeft="16dp"
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_marginEnd="16dp"
         android:layout_toEndOf="@+id/ingredients_linearImage"
         android:layout_below="@+id/ingredients_landscape_layout"
-        android:id="@+id/ingredients_listView_id"
-        android:layout_width="wrap_content"
+        android:layout_marginStart="16dp"
+        android:id="@+id/ingredients_recyclerView_id"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="?attr/actionBarSize">
-    </ListView>
+
+    </android.support.v7.widget.RecyclerView>
 
 </RelativeLayout>

@@ -1,16 +1,22 @@
 package com.billy.sousbox.sousbox.fragments;
 
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +26,7 @@ import android.widget.Toast;
 import com.billy.sousbox.sousbox.firebaseModels.Recipes;
 import com.billy.billy.sousbox.R;
 import com.billy.sousbox.sousbox.adapters.FirebaseRecipeVIewHolder;
+import com.bumptech.glide.Glide;
 import com.facebook.AccessToken;
 import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
@@ -49,6 +56,8 @@ public class SavedRecipeFragment extends Fragment {
         checkNetwork();
         fireBaseAdapter();
         firebaseRecycerItemClicker();
+        setHasOptionsMenu(true);
+
         return v;
     }
 
@@ -66,10 +75,19 @@ public class SavedRecipeFragment extends Fragment {
                 if (imageURI.isEmpty()) {
                     imageURI = "R.drawable.blank_white.png";
                 }
-                Picasso.with(getContext())
+//                Picasso.with(getContext())
+//                        .load("https://webknox.com/recipeImages/"+ imageURI)
+//                        .resize(300, 300)
+//                        .centerCrop()
+//                        .into(holder.recipeImage);
+//
+                Glide
+                        .with(getContext())
                         .load("https://webknox.com/recipeImages/"+ imageURI)
-                        .resize(300, 300)
                         .centerCrop()
+                        .placeholder(R.drawable.blank_white)
+//                        .crossFade()
+                        .override(125, 125)
                         .into(holder.recipeImage);
             }
         };
@@ -199,4 +217,40 @@ public class SavedRecipeFragment extends Fragment {
         return uID;
     }
 
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.info_menu, menu);
+    }
+
+    /**
+     * information on how to remove saved recipe
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.info_menu_id) {
+            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(getContext());
+            dlgAlert.setMessage(getString(R.string.saved_frag_info_string));
+            dlgAlert.setTitle(getString(R.string.app_name));
+            dlgAlert.setPositiveButton("OK", null);
+            dlgAlert.setCancelable(true);
+            dlgAlert.create().show();
+
+            dlgAlert.setPositiveButton("Ok",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }
