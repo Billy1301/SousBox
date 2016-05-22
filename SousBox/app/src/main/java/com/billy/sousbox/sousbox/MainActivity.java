@@ -152,10 +152,15 @@ public class MainActivity extends AppCompatActivity {
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_menu_gallery, R.color.colorPrimary);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.ic_menu_manage, R.color.colorPrimaryDark);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.tab_4, R.drawable.ic_saved_icon, R.color.colorPrimaryDark);
+        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.tab_5, R.drawable.ic_search_24dp, R.color.colorPrimaryDark);
+
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
         bottomNavigation.addItem(item4);
+        bottomNavigation.addItem(item5);
+
+
         bottomNavigation.setBehaviorTranslationEnabled(false);
         bottomNavigation.setForceTint(true);
         bottomNavigation.setForceTitlesDisplay(true);
