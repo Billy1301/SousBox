@@ -1,5 +1,6 @@
 package com.billy.sousbox.sousbox;
 
+import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,6 +24,7 @@ import com.billy.billy.sousbox.R;
 import com.billy.sousbox.sousbox.fragments.PreferencesFragment;
 import com.billy.sousbox.sousbox.fragments.FoodListsMainFragment;
 import com.billy.sousbox.sousbox.fragments.SavedRecipeFragment;
+import com.billy.sousbox.sousbox.fragments.SearchFragment;
 import com.billy.sousbox.sousbox.fragments.SwipeItemFragment;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -41,6 +44,10 @@ public class MainActivity extends AppCompatActivity {
     private CallbackManager callbackManager;
     private SavedRecipeFragment savedRecipeFrag;
     private AHBottomNavigation bottomNavigation;
+    private SearchFragment searchFragment;
+    private SearchView searchView;
+    private String searchQuery;
+
 
 
     @Override
@@ -54,11 +61,51 @@ public class MainActivity extends AppCompatActivity {
         initiViews();
         checkNetwork();
         bottomNavi();
-
-        //prevent switch back to first frag when rotating
+        //prevent switch back to first frag when rotating screen
         if(savedInstanceState == null){
             setupFragmentOnFirstLoad();
         }
+        handleIntent(getIntent());
+    }
+
+
+    /**
+     * This is for the search option
+     * @param intent
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            searchQuery = intent.getStringExtra(SearchManager.QUERY);
+            searchFragment.setSearchQuery(searchQuery);
+            Toast.makeText(getApplicationContext(), "Searching for " + searchQuery, Toast.LENGTH_SHORT).show();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container_id, searchFragment);
+            fragmentTransaction.commit();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.search, menu);
+
+        SearchManager searchManager =
+                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        searchView = (SearchView) menu.findItem(R.id.search).getActionView();
+        searchView.setSearchableInfo(
+                searchManager.getSearchableInfo(getComponentName()));
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -70,7 +117,6 @@ public class MainActivity extends AppCompatActivity {
     /**
      * start the fragment when app start
      */
-
     private void setupFragmentOnFirstLoad(){
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -104,6 +150,7 @@ public class MainActivity extends AppCompatActivity {
         preferencesFragment = new PreferencesFragment();
         swipeItemActivityFrag = new SwipeItemFragment();
         savedRecipeFrag = new SavedRecipeFragment();
+        searchFragment = new SearchFragment();
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
     }
@@ -152,14 +199,10 @@ public class MainActivity extends AppCompatActivity {
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_2, R.drawable.ic_menu_gallery, R.color.colorPrimary);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_3, R.drawable.ic_menu_manage, R.color.colorPrimaryDark);
         AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.tab_4, R.drawable.ic_saved_icon, R.color.colorPrimaryDark);
-        AHBottomNavigationItem item5 = new AHBottomNavigationItem(R.string.tab_5, R.drawable.ic_search_24dp, R.color.colorPrimaryDark);
-
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
         bottomNavigation.addItem(item4);
-        bottomNavigation.addItem(item5);
-
 
         bottomNavigation.setBehaviorTranslationEnabled(false);
         bottomNavigation.setForceTint(true);

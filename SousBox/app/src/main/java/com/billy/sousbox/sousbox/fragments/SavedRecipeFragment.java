@@ -23,6 +23,8 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.billy.sousbox.sousbox.adapters.RecyclerClicker.ClickListener;
+import com.billy.sousbox.sousbox.adapters.RecyclerClicker.RecyclerTouchListener;
 import com.billy.sousbox.sousbox.firebaseModels.Recipes;
 import com.billy.billy.sousbox.R;
 import com.billy.sousbox.sousbox.adapters.FirebaseRecipeVIewHolder;
@@ -38,7 +40,7 @@ import com.squareup.picasso.Picasso;
  */
 public class SavedRecipeFragment extends Fragment {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     private FirebaseRecyclerAdapter<Recipes, FirebaseRecipeVIewHolder> mAdapter;
     private Firebase firebaseChild;
     private Firebase firebaseRef;
@@ -75,12 +77,7 @@ public class SavedRecipeFragment extends Fragment {
                 if (imageURI.isEmpty()) {
                     imageURI = "R.drawable.blank_white.png";
                 }
-//                Picasso.with(getContext())
-//                        .load("https://webknox.com/recipeImages/"+ imageURI)
-//                        .resize(300, 300)
-//                        .centerCrop()
-//                        .into(holder.recipeImage);
-//
+
                 Glide
                         .with(getContext())
                         .load("https://webknox.com/recipeImages/"+ imageURI)
@@ -137,57 +134,6 @@ public class SavedRecipeFragment extends Fragment {
         }));
     }
 
-    /**
-     * setting up ClickerListener for firebase
-     */
-    public interface ClickListener {
-        void onClick(View view, int position);
-
-        void onLongClick(View view, int position);
-    }
-
-    public static class RecyclerTouchListener implements RecyclerView.OnItemTouchListener {
-
-        private GestureDetector gestureDetector;
-        private SavedRecipeFragment.ClickListener clickListener;
-
-        public RecyclerTouchListener(Context context, final RecyclerView recyclerView, final SavedRecipeFragment.ClickListener clickListener) {
-            this.clickListener = clickListener;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    return true;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(), e.getY());
-                    if (child != null && clickListener != null) {
-                        clickListener.onLongClick(child, recyclerView.getChildPosition(child));
-                    }
-                }
-            });
-        }
-
-        @Override
-        public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-            View child = rv.findChildViewUnder(e.getX(), e.getY());
-            if (child != null && clickListener != null && gestureDetector.onTouchEvent(e)) {
-                clickListener.onClick(child, rv.getChildPosition(child));
-            }
-            return false;
-        }
-
-        @Override
-        public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-    }
-
     private boolean isFacebookLoggedIn(){
         return AccessToken.getCurrentAccessToken() !=null;
     }
@@ -198,7 +144,7 @@ public class SavedRecipeFragment extends Fragment {
         firebaseChild = firebaseRef.child("recipes");
     }
 
-    public void setViews(android.view.View v){
+    private void setViews(android.view.View v){
         recyclerView = (RecyclerView)v.findViewById(R.id.recipeLists_recycleView_id);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         progress = (ProgressBar) v.findViewById(R.id.main_progress_bar_id);
