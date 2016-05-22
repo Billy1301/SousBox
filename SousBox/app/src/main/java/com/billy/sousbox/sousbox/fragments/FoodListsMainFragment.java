@@ -56,8 +56,6 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
     public final static String IMAGE_KEY = "image";
     int position;
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

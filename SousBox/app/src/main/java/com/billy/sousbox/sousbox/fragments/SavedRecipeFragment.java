@@ -77,12 +77,7 @@ public class SavedRecipeFragment extends Fragment {
                 if (imageURI.isEmpty()) {
                     imageURI = "R.drawable.blank_white.png";
                 }
-//                Picasso.with(getContext())
-//                        .load("https://webknox.com/recipeImages/"+ imageURI)
-//                        .resize(300, 300)
-//                        .centerCrop()
-//                        .into(holder.recipeImage);
-//
+
                 Glide
                         .with(getContext())
                         .load("https://webknox.com/recipeImages/"+ imageURI)

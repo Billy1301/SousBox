@@ -8,33 +8,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.billy.sousbox.sousbox.api.recipeModels.SpoonacularObjects;
 import com.billy.billy.sousbox.R;
+import com.billy.sousbox.sousbox.api.recipeModels.SpoonacularObjects;
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 /**
- * Created by Billy on 4/29/16.
+ * Created by Billy on 5/22/16.
  */
-public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.RecyclerViewHolder> {
+public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAdapter.RecyclerViewHolder> {
 
     private ArrayList<SpoonacularObjects> data;
     private Context context;
     private static OnItemClickListener listener;
-    private final RecipeScrollListener recipeScrollListener;
 
-    public interface RecipeScrollListener {
-        void loadNewRecipes(int position);
-    }
-
-    public RecycleViewAdapter(ArrayList<SpoonacularObjects> data, RecipeScrollListener recipeScrollListener) {
+    public SearchRecyclerAdapter(ArrayList<SpoonacularObjects> data) {
         this.data = data;
-        this.recipeScrollListener = recipeScrollListener;
     }
-
-
 
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
@@ -80,16 +71,9 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 .override(150,150)
                 .into(holder.recipeImageView);
 
-//        Picasso.with(context)
-//                .load("https://webknox.com/recipeImages/"+ imageURI)
-//                .resize(400, 400)
-//                .centerCrop()
-//                .into(holder.recipeImageView);
-
-        if (position == data.size()-2){
-            recipeScrollListener.loadNewRecipes(position);
-        }
     }
+
+
 
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
@@ -104,5 +88,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     public int getItemCount() {
         return data.size();
     }
+
 
 }
