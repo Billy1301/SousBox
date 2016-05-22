@@ -6,6 +6,7 @@
     <string name="tab_2">Recipes</string>
     <string name="tab_3">Preferences</string>
     <string name="tab_4">Saved Recipe</string>
+    <string name="tab_5">Search</string>
 
     <string name="instructions">Instructions</string>
     <string name="settings">Settings</string>
