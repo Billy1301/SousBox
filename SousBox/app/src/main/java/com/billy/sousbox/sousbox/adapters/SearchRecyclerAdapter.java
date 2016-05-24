@@ -21,21 +21,12 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
 
     private ArrayList<SpoonacularObjects> data;
     private Context context;
-    private static OnItemClickListener listener;
 
     public SearchRecyclerAdapter(ArrayList<SpoonacularObjects> data) {
         this.data = data;
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(View itemView, int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
-    // this is where we setup TextView and item clicker
+    // this is where we setup TextView
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
         ImageView recipeImageView;
         TextView recipeTitleText;
@@ -44,13 +35,6 @@ public class SearchRecyclerAdapter extends RecyclerView.Adapter<SearchRecyclerAd
             super(itemView);
             recipeImageView = (ImageView) itemView.findViewById(R.id.saved_recipe_imageOne_id);
             recipeTitleText = (TextView) itemView.findViewById(R.id.saved_recipe_imageOne_title_id);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (listener != null)
-                        listener.onItemClick(itemView, getLayoutPosition());
-                }
-            });
         }
     }
 

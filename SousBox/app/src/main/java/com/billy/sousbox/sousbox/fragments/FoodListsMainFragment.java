@@ -22,12 +22,12 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.billy.sousbox.sousbox.adapters.RecyclerClicker.EndlessRecyclerOnScrollListener;
 import com.billy.sousbox.sousbox.api.RecipeAPI;
 import com.billy.sousbox.sousbox.api.recipeModels.SpoonacularObjects;
 import com.billy.sousbox.sousbox.api.recipeModels.SpoonacularResults;
 import com.billy.billy.sousbox.R;
 import com.billy.sousbox.sousbox.adapters.RecycleViewAdapter;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
@@ -40,7 +40,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 /**
  * Created by Billy on 5/4/16.
  */
-public class FoodListsMainFragment extends Fragment implements RecycleViewAdapter.RecipeScrollListener {
+public class FoodListsMainFragment extends Fragment {
 
     //region Private Variables
     private RecycleViewAdapter recycleAdapter;
@@ -50,11 +50,17 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
     private RecipeAPI searchAPI;
     private ProgressBar progress;
     private int offset = 0;
+    private int position;
+    private LinearLayoutManager linearLayoutManager;
+    private boolean loading = true;
+    private int previousTotal = 0;
+    private int visibleThreshold = 5;
+    private int firstVisibleItem, visibleItemCount, totalItemCount;
     //endregion Private Variables
 
     public final static String RECIPE_ID_KEY = "recipeID";
     public final static String IMAGE_KEY = "image";
-    int position;
+
 
     @Nullable
     @Override
@@ -65,6 +71,7 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
         setViews(v);
         retrofitRecipe();
         recycleAdapterItemClicker();
+        setEndlessScroll();
         return v;
     }
 
@@ -74,6 +81,53 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
         recipeLists = new ArrayList<>();
         querySearch = getSearchFilter();
         progress.setVisibility(View.VISIBLE);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recycleAdapter = new RecycleViewAdapter(recipeLists);
+        recyclerView.setAdapter(recycleAdapter);
+    }
+
+
+    /**
+     * pull more recipes when at end
+     */
+ /*   private void setEndlessScroll(){
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                visibleItemCount = linearLayoutManager.getChildCount();
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (loading) {
+                    if (totalItemCount > previousTotal) {
+                        loading = false;
+                        previousTotal = totalItemCount;
+                    }
+                }
+                if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                    // End has been reached
+                    Toast.makeText(getContext(), "Loading more", Toast.LENGTH_SHORT).show();
+                    offset += 20;
+                    retrofitRecipe();
+                    loading = true;
+                }
+            }
+        });
+    }*/
+
+    /**
+     * pull more recipes when at end
+     */
+    private void setEndlessScroll(){
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                Toast.makeText(getContext(), "Loading more", Toast.LENGTH_SHORT).show();
+                offset += 20;
+                retrofitRecipe();
+            }
+        });
     }
 
     /**
@@ -101,12 +155,9 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
      * bundle to pass the ID into the API ingredients called
      */
     private void recycleAdapterItemClicker() {
-        recycleAdapter = new RecycleViewAdapter(recipeLists, this);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recycleAdapter.setOnItemClickListener(new RecycleViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-
                 recipeLists.get(position);
                 Bundle recipeId = new Bundle();
                 int recipe = recipeLists.get(position).getId();
@@ -124,6 +175,7 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
     }
 
     private void retrofitRecipe() {
+
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SwipeItemFragment.SPOON_API_LINK)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -139,13 +191,13 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
                     return;
                 }
                 Collections.addAll(recipeLists, spoonacularResults.getResults());
+
+
                 if (recyclerView != null) {
-//                    long seed = System.nanoTime();
-//                    Collections.shuffle(recipeLists, new Random(seed));
-                    recyclerView.setAdapter(recycleAdapter);
+                    position = recycleAdapter.getItemCount();
                     recycleAdapter.notifyItemRangeInserted(position, spoonacularResults.getResults().length);
-//                    recycleAdapter.notifyDataSetChanged();
                     progress.setVisibility(View.GONE);
+
                 }
             }
 
@@ -155,18 +207,4 @@ public class FoodListsMainFragment extends Fragment implements RecycleViewAdapte
             }
         });
     }
-
-    /**
-     * to get more listing when almost to end
-     * @param position
-     */
-    @Override
-    public void loadNewRecipes(int position) {
-        this.position = position;
-        offset += 50;
-        retrofitRecipe();
-    }
-
-
-
 }

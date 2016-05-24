@@ -1,68 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    android:orientation="vertical"
+<android.support.design.widget.CoordinatorLayout
+    android:id="@+id/ingredient_coord_layout_id"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:fitsSystemWindows="true"
+    >
 
-    <ProgressBar
-        android:id="@+id/ingredients_progress_bar_id"
+    <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?android:attr/progressBarStyleLarge"
-        android:visibility="visible"/>
+        android:theme="@style/AppTheme.AppBarOverlay"
+        android:fitsSystemWindows="true">
 
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_marginTop="20dp"
-            android:id="@+id/ingredients_imageView_id"
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapse_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="350dp"
-            />
+            android:layout_height="450dp"
+            android:background="@android:color/white"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            android:fitsSystemWindows="true"
+            >
 
-        <TextView
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:textSize="22sp"
-            android:gravity="center"
-            android:id="@+id/ingredients_titleView_id"
+            <ImageView
+                android:id="@+id/ingredients_imageView_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_collapseMode="parallax"
+                android:scaleType="centerCrop"
+                android:fitsSystemWindows="true"
+                android:contentDescription="@string/collapsing_toolbar_image"
+                />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            >
 
-    <FrameLayout
-        android:padding="16dp"
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+            <TextView
+                android:layout_marginTop="8dp"
+                android:textStyle="bold"
+                android:textSize="30sp"
+                android:gravity="center"
+                android:id="@+id/ingredients_titleView_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
 
-        <Button
-            android:layout_marginStart="16dp"
-            android:textSize="20sp"
-            android:id="@+id/instruction_button_id"
-            android:text="@string/instructions"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-        <Button
-            android:textSize="20sp"
-            android:layout_marginEnd="16dp"
-            android:id="@+id/ingredients_serving_button_id"
-            android:text="servings"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical" />
-    </FrameLayout>
+                <Button
+                    android:layout_marginStart="16dp"
+                    android:id="@+id/instruction_button_id"
+                    android:text="@string/instructions"
+                    android:layout_gravity="start"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:id="@+id/ingredients_recyclerView_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="?attr/actionBarSize">
+                <Button
+                    android:layout_gravity="end"
+                    android:id="@+id/ingredients_serving_button_id"
+                    android:text="servings"
+                    android:layout_marginEnd="16dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
-    </android.support.v7.widget.RecyclerView>
+            </FrameLayout>
 
-</LinearLayout>
+            <ProgressBar
+                android:layout_gravity="bottom"
+                android:id="@+id/ingredients_progress_bar_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="?android:attr/progressBarStyleLarge"
+                android:visibility="visible"/>
+
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="8dp"
+                android:id="@+id/ingredients_recyclerView_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="?attr/actionBarSize">
+
+            </android.support.v7.widget.RecyclerView>
+
+        </LinearLayout>
+
+    </android.support.v4.widget.NestedScrollView>
+
+</android.support.design.widget.CoordinatorLayout>

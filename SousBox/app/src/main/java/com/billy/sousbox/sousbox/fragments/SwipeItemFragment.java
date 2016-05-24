@@ -101,7 +101,6 @@ public class SwipeItemFragment extends Fragment {
         swipeProgressBar = (ProgressBar)v.findViewById(R.id.swipe_progress_bar_id);
         swipeProgressBar.setVisibility(View.VISIBLE);
         callbackManager = CallbackManager.Factory.create();
-
     }
 
     /**
@@ -113,7 +112,6 @@ public class SwipeItemFragment extends Fragment {
         flingContainer.setFlingListener(new SwipeFlingAdapterView.onFlingListener() {
             @Override
             public void removeFirstObjectInAdapter() {
-
             }
 
             @Override
@@ -139,13 +137,14 @@ public class SwipeItemFragment extends Fragment {
             }
 
             /**
-             * pull more from API call when card is about to be empty
+             * pull more from API when card is about to be empty
              * @param itemsInAdapter
              */
             @Override
             public void onAdapterAboutToEmpty(int itemsInAdapter) {
-                if (recipeLists.size() > 3) {
-                    offset += 50;
+                if (recipeLists.size() < 2) {
+                    swipeProgressBar.setVisibility(View.VISIBLE);
+                    offset += 20;
                     swipeRecipePulling();
                 }
             }
@@ -236,9 +235,7 @@ public class SwipeItemFragment extends Fragment {
                 flingContainer.getTopCardListener().selectRight();
             }
         });
-
     }
-
 
     /**
      * calling api
@@ -250,23 +247,19 @@ public class SwipeItemFragment extends Fragment {
                 .build();
 
         searchAPI = retrofit.create(RecipeAPI.class);
-
         Call<SpoonacularResults> call = searchAPI.recipesAPIcall(offset, foodType);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
                 SpoonacularResults spoonacularResults = response.body();
-
                 if (spoonacularResults == null) {
                     return;
                 }
-
                 Collections.addAll(recipeLists, spoonacularResults.getResults());
                 long seed = System.nanoTime();
                 Collections.shuffle(recipeLists, new Random(seed));
                 adapter.notifyDataSetChanged();
                 swipeProgressBar.setVisibility(View.GONE);
-
             }
 
             @Override
@@ -277,6 +270,10 @@ public class SwipeItemFragment extends Fragment {
         });
     }
 
+    /**
+     * for filter options
+     * @return
+     */
     private String getSearchFilter(){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         return sharedPreferences.getString(PreferencesFragment.Shared_FILTER_KEY, "");

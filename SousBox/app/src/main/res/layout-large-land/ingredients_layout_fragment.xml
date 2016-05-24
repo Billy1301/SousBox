@@ -80,7 +80,7 @@
         android:id="@+id/ingredients_recyclerView_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="?attr/actionBarSize">
+        >
 
     </android.support.v7.widget.RecyclerView>
 
