@@ -23,18 +23,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     private ArrayList<SpoonacularObjects> data;
     private Context context;
     private static OnItemClickListener listener;
-    private final RecipeScrollListener recipeScrollListener;
 
-    public interface RecipeScrollListener {
-        void loadNewRecipes(int position);
-    }
-
-    public RecycleViewAdapter(ArrayList<SpoonacularObjects> data, RecipeScrollListener recipeScrollListener) {
+    public RecycleViewAdapter(ArrayList<SpoonacularObjects> data) {
         this.data = data;
-        this.recipeScrollListener = recipeScrollListener;
     }
-
-
 
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
@@ -70,7 +62,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         if (imageURI.isEmpty()) {
             imageURI = "R.drawable.blank_white.png";
         }
-
         Glide
                 .with(context)
                 .load("https://webknox.com/recipeImages/"+ imageURI)
@@ -79,16 +70,6 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
                 .crossFade()
                 .override(150,150)
                 .into(holder.recipeImageView);
-
-//        Picasso.with(context)
-//                .load("https://webknox.com/recipeImages/"+ imageURI)
-//                .resize(400, 400)
-//                .centerCrop()
-//                .into(holder.recipeImageView);
-
-        if (position == data.size()-2){
-            recipeScrollListener.loadNewRecipes(position);
-        }
     }
 
     @Override

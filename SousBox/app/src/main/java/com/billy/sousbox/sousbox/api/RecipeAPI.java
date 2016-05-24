@@ -17,18 +17,17 @@ public interface RecipeAPI {
 
     //this one for search option
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
-    @GET("search?number=20&offset=0&")
+    @GET("search?number=25&offset=0&")
     Call<SpoonacularResults> searchRecipe(@Query("query")String q);
 
+
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
-    @GET("search?limitLicense=false&number=50")
+    @GET("search?limitLicense=false&number=20")
     Call<SpoonacularResults> recipesAPIcall(@Query("offset") int offset,
                                             @Query("query") String q);
 
     /**
      * this is to pull recipe ingredients
-     * @param id
-     * @return
      */
     @Headers("X-Mashape-Key: " + Keys.MASHAPLE)
     @GET("{id}/information")

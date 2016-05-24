@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.billy.billy.sousbox.R;
 import com.billy.sousbox.sousbox.adapters.RecycleViewAdapter;
 import com.billy.sousbox.sousbox.adapters.RecyclerClicker.ClickListener;
+import com.billy.sousbox.sousbox.adapters.RecyclerClicker.EndlessRecyclerOnScrollListener;
 import com.billy.sousbox.sousbox.adapters.RecyclerClicker.RecyclerTouchListener;
 import com.billy.sousbox.sousbox.adapters.SearchRecyclerAdapter;
 import com.billy.sousbox.sousbox.api.RecipeAPI;
@@ -48,8 +49,15 @@ public class SearchFragment extends Fragment {
     private ArrayList<SpoonacularObjects> recipeLists;
     private String searchQuery;
     private SearchRecyclerAdapter recycleAdapter;
+    private LinearLayoutManager linearLayoutManager;
+    private int offset = 0;
+    private int position;
 
 
+    /**
+     * this is to get filters clickbox
+     * @param searchQuery
+     */
     public void setSearchQuery(String searchQuery) {
         this.searchQuery = searchQuery;
     }
@@ -64,9 +72,13 @@ public class SearchFragment extends Fragment {
         setViews(v);
         retrofitRecipe();
         setRecyclerItemClicker();
+        setEndlessScroll();
         return v;
     }
 
+    /**
+     * ItemClicker & bundle to pull ingredients page
+     */
     private void setRecyclerItemClicker(){
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new ClickListener() {
             @Override
@@ -88,31 +100,44 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onLongClick(View view, int position) {
-
+                //nothing to do here. can't delete
             }
         }));
     }
-
-
 
     private void setViews(View v){
         recyclerView = (RecyclerView)v.findViewById(R.id.recipeLists_recycleView_id);
         recipeLists = new ArrayList<>();
         recycleAdapter = new SearchRecyclerAdapter(recipeLists);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(recycleAdapter);
         progress = (ProgressBar) v.findViewById(R.id.main_progress_bar_id);
         progress.setVisibility(View.VISIBLE);
     }
 
-    private void retrofitRecipe() {
+    /**
+     * pull more recipes when at end
+     */
+    private void setEndlessScroll(){
+        recyclerView.addOnScrollListener(new EndlessRecyclerOnScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int current_page) {
+                Toast.makeText(getContext(), "Loading more", Toast.LENGTH_SHORT).show();
+                offset += 20;
+                retrofitRecipe();
+            }
+        });
+    }
 
+    private void retrofitRecipe() {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(SwipeItemFragment.SPOON_API_LINK)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         searchAPI = retrofit.create(RecipeAPI.class);
-        Call<SpoonacularResults> call = searchAPI.searchRecipe(searchQuery);
+        Call<SpoonacularResults> call = searchAPI.recipesAPIcall(offset, searchQuery);
         call.enqueue(new Callback<SpoonacularResults>() {
             @Override
             public void onResponse(Call<SpoonacularResults> call, Response<SpoonacularResults> response) {
@@ -123,8 +148,8 @@ public class SearchFragment extends Fragment {
                 Collections.addAll(recipeLists, spoonacularResults.getResults());
 
                 if (recyclerView != null) {
-                    recyclerView.setAdapter(recycleAdapter);
-                    //recycleAdapter.notifyDataSetChanged();
+                    position = recycleAdapter.getItemCount();
+                    recycleAdapter.notifyItemRangeInserted(position, spoonacularResults.getResults().length);
                     progress.setVisibility(View.GONE);
                 }
             }
