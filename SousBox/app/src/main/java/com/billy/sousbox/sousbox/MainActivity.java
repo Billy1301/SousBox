@@ -2,19 +2,16 @@ package com.billy.sousbox.sousbox;
 
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
@@ -34,6 +31,7 @@ import com.facebook.appevents.AppEventsLogger;
 
 public class MainActivity extends AppCompatActivity {
 
+    //region Private Variables
     private Toolbar toolbar;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -47,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private SearchFragment searchFragment;
     private SearchView searchView;
     private String searchQuery;
-
+    //endregion Private Variables
 
 
     @Override
@@ -58,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
-        initiViews();
+        setViews();
         checkNetwork();
         bottomNavi();
         //prevent switch back to first frag when rotating screen
@@ -91,9 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.search, menu);
-
         SearchManager searchManager =
                 (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.search).getActionView();
@@ -142,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * setting up the views
      */
-    private void initiViews(){
+    private void setViews(){
         callbackManager = CallbackManager.Factory.create();
         fragContainer = (FrameLayout)findViewById(R.id.fragment_container_id);
         fragmentManager = getSupportFragmentManager();

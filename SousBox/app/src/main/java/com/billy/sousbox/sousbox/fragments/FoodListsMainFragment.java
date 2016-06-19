@@ -87,35 +87,6 @@ public class FoodListsMainFragment extends Fragment {
         recyclerView.setAdapter(recycleAdapter);
     }
 
-
-    /**
-     * pull more recipes when at end
-     */
- /*   private void setEndlessScroll(){
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                visibleItemCount = linearLayoutManager.getChildCount();
-                totalItemCount = linearLayoutManager.getItemCount();
-                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
-
-                if (loading) {
-                    if (totalItemCount > previousTotal) {
-                        loading = false;
-                        previousTotal = totalItemCount;
-                    }
-                }
-                if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-                    // End has been reached
-                    Toast.makeText(getContext(), "Loading more", Toast.LENGTH_SHORT).show();
-                    offset += 20;
-                    retrofitRecipe();
-                    loading = true;
-                }
-            }
-        });
-    }*/
-
     /**
      * pull more recipes when at end
      */

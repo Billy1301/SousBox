@@ -166,7 +166,6 @@ public class PreferencesFragment extends Fragment {
                             seafoodCheckbox.setEnabled(false);
                             vegetarianCheckBox.setEnabled(false);
                             allTypeCheckBox.setEnabled(false);
-
                         }
                         if (!checked) {
                             beefCheck = false;
@@ -209,7 +208,6 @@ public class PreferencesFragment extends Fragment {
                             seafoodCheckbox.setEnabled(false);
                             vegetarianCheckBox.setEnabled(false);
                             allTypeCheckBox.setEnabled(false);
-
                         } else {
                             porkCheck = false;
                             setFoodTypeFilters("");
@@ -260,7 +258,6 @@ public class PreferencesFragment extends Fragment {
                             allTypeCheckBox.setEnabled(true);
                         }
                         break;
-
                     case R.id.allType_checkbox_id:
                         if (checked) {
                             allTypeCheck = true;
@@ -271,8 +268,6 @@ public class PreferencesFragment extends Fragment {
                             seafoodCheckbox.setEnabled(false);
                             vegetarianCheckBox.setEnabled(false);
                             chickenCheckBox.setEnabled(false);
-
-
                         } else {
                             allTypeCheck = false;
                             setFoodTypeFilters("");

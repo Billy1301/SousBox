@@ -43,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 public class SearchFragment extends Fragment {
 
+    //region Private Variables
     private RecyclerView recyclerView;
     private ProgressBar progress;
     private RecipeAPI searchAPI;
@@ -52,7 +53,7 @@ public class SearchFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
     private int offset = 0;
     private int position;
-
+    //endregion Private Variables
 
     /**
      * this is to get filters clickbox

@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
  * Created by Billy on 5/22/16.
  */
 public abstract class EndlessRecyclerOnScrollListener extends RecyclerView.OnScrollListener {
+
     public static String TAG = EndlessRecyclerOnScrollListener.class.getSimpleName();
 
     private int previousTotal = 0; // The total number of items in the dataset after the last load
