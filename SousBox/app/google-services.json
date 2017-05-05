@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "13006682180",
+    "firebase_url": "https://sous-box.firebaseio.com",
+    "project_id": "sous-box",
+    "storage_bucket": "sous-box.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13006682180:android:269746b6afdd8c62",
+        "android_client_info": {
+          "package_name": "com.billy.billy.sousbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13006682180-nrefk5l8a4v9dngf9b2bghgjr87idahh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBVpcsDYTI3R9Hcq6vHQMK9ReLzzWrkb5k"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

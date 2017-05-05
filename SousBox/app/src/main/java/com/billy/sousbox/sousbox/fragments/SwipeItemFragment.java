@@ -256,8 +256,8 @@ public class SwipeItemFragment extends Fragment {
                     return;
                 }
                 Collections.addAll(recipeLists, spoonacularResults.getResults());
-                long seed = System.nanoTime();
-                Collections.shuffle(recipeLists, new Random(seed));
+//                long seed = System.nanoTime();
+//                Collections.shuffle(recipeLists, new Random(seed));
                 adapter.notifyDataSetChanged();
                 swipeProgressBar.setVisibility(View.GONE);
             }

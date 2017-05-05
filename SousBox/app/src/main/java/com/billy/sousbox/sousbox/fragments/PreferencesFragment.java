@@ -130,7 +130,7 @@ public class PreferencesFragment extends Fragment {
      * @param v
      */
     private void initiViews(View v){
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         loginButton = (LoginButton)v.findViewById(R.id.login_button);
         loginButton.setFragment(this);
         facebookUserName = (TextView)v.findViewById(R.id.pref_user_nameDisplay_id);
@@ -166,7 +166,6 @@ public class PreferencesFragment extends Fragment {
                             seafoodCheckbox.setEnabled(false);
                             vegetarianCheckBox.setEnabled(false);
                             allTypeCheckBox.setEnabled(false);
-
                         }
                         if (!checked) {
                             beefCheck = false;
@@ -209,7 +208,6 @@ public class PreferencesFragment extends Fragment {
                             seafoodCheckbox.setEnabled(false);
                             vegetarianCheckBox.setEnabled(false);
                             allTypeCheckBox.setEnabled(false);
-
                         } else {
                             porkCheck = false;
                             setFoodTypeFilters("");
@@ -260,7 +258,6 @@ public class PreferencesFragment extends Fragment {
                             allTypeCheckBox.setEnabled(true);
                         }
                         break;
-
                     case R.id.allType_checkbox_id:
                         if (checked) {
                             allTypeCheck = true;
@@ -271,8 +268,6 @@ public class PreferencesFragment extends Fragment {
                             seafoodCheckbox.setEnabled(false);
                             vegetarianCheckBox.setEnabled(false);
                             chickenCheckBox.setEnabled(false);
-
-
                         } else {
                             allTypeCheck = false;
                             setFoodTypeFilters("");
