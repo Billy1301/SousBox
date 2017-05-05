@@ -130,7 +130,7 @@ public class PreferencesFragment extends Fragment {
      * @param v
      */
     private void initiViews(View v){
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        //sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         loginButton = (LoginButton)v.findViewById(R.id.login_button);
         loginButton.setFragment(this);
         facebookUserName = (TextView)v.findViewById(R.id.pref_user_nameDisplay_id);

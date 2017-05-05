@@ -17,7 +17,6 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
-import com.billy.billy.sousbox.R;
 import com.billy.sousbox.sousbox.fragments.PreferencesFragment;
 import com.billy.sousbox.sousbox.fragments.FoodListsMainFragment;
 import com.billy.sousbox.sousbox.fragments.SavedRecipeFragment;
@@ -171,7 +170,6 @@ public class MainActivity extends AppCompatActivity {
                     fragmentTransaction.replace(R.id.fragment_container_id, swipeItemActivityFrag);
                 }
                 if (position == 1) {
-
                     fragmentTransaction.replace(R.id.fragment_container_id, recipeListsFrag);
                 }
                 if (position == 2) {
@@ -188,7 +186,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
 
     private void setupBottomNavi(){
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_1, R.drawable.ic_random, R.color.colorPrimary);
